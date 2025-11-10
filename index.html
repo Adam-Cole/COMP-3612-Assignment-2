@@ -53,13 +53,16 @@
             <section class="cart" data-state="empty">
             <!-- Left: Items -->
             <div class="panel">
+                <div></div>
                 <div class="cart-head">
-                <div class="muted">Items</div>
-                <div class="muted">Color</div>
-                <div class="muted">Size</div>
-                <div class="muted">Price</div>
-                <div class="muted">Quantity</div>
-                <div class="muted">Subtotal</div>
+                    <div></div>
+                    <div class="muted">Items</div>
+                    <div class="muted"></div>
+                    <div class="muted">Color</div>
+                    <div class="muted">Size</div>
+                    <div class="muted">Price</div>
+                    <div class="muted">Quantity</div>
+                    <div class="muted">Subtotal</div>
                 </div>
 
                 <div class="cart-items" id="cartItems">
@@ -71,28 +74,43 @@
                 <!-- Example row (hidden template for JS to clone later) -->
                 <template id="itemTemplate">
                     <div class="cart-row" data-item-id="">
-                    <div class="thumb">img</div>
-                    <div>
-                        <div class="title">Product Title</div>
-                        <div class="muted" style="margin-top:4px; display:flex; gap:10px; align-items:center;">
-                        <span class="chip"><span class="swatch" style="background:#1e3a8a"></span>Color</span>
-                        <span class="chip">Size: <strong>XS</strong></span>
-                        <button class="remove" type="button" aria-label="Remove item">Remove</button>
+                        <!-- col 1: select -->
+                        <div class="sel">
+                        <input type="checkbox" class="row-check" aria-label="Select item">
                         </div>
-                    </div>
-                    <div class="num price">$80.00</div>
-                    <div>
+
+                         <!-- col 2: image -->
+                        <div class="thumb">img</div>
+
+                        <!-- col 3: title -->
+                        <div><div class="title">Product Title</div></div>
+
+                        <!-- col 4: color -->
+                        <div class="color-cell"><span class="swatch" style="background:#1e3a8a"></span></div>
+
+                        <!-- col 5: size -->
+                        <div class="size-cell">XS</div>
+
+                        <!-- col 6: price -->
+                        <div class="num price">$80.00</div>
+
+                        <!-- col 7: qty -->
+                        <div>
                         <div class="qty">
-                        <button type="button" aria-label="Decrease quantity">–</button>
-                        <input type="text" inputmode="numeric" value="1" aria-label="Quantity" />
-                        <button type="button" aria-label="Increase quantity">+</button>
+                            <button type="button" aria-label="Decrease quantity">–</button>
+                            <input type="text" inputmode="numeric" value="2" aria-label="Quantity" />
+                            <button type="button" aria-label="Increase quantity">+</button>
                         </div>
+                        </div>
+
+                        <!-- col 8: subtotal -->
+                        <div class="num subtotal">$160.00</div>
                     </div>
-                    <div class="num subtotal">$80.00</div>
-                    </div>
-                </template>
+                    </template>
                 </div>
             </div>
+
+            <button type="button" id="removeSelected" class="remove">Remove selected</button>
 
             <!-- Right: Shipping + Summary -->
             <div class="side">
@@ -103,7 +121,7 @@
                     <label class="field">
                     <span class="muted">Method</span>
                     <span class="select">
-                        <select id="shipMethod" disabled>
+                        <select id="shipMethod">
                         <option value="standard">Standard</option>
                         <option value="express">Express</option>
                         <option value="priority">Priority</option>
@@ -113,7 +131,7 @@
                     <label class="field">
                     <span class="muted">Destination</span>
                     <span class="select">
-                        <select id="shipDest" disabled>
+                        <select id="shipDest">
                         <option value="CA">Canada</option>
                         <option value="US">United States</option>
                         <option value="INT">International</option>
