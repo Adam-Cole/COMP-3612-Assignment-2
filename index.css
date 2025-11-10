@@ -1,0 +1,90 @@
+:root{
+  --ink:#2C3E50;
+  --sub:#4A5568;
+  --panel:#F4F7FA;
+  --brand:#2B6CB0;
+  --kerby:#003352; /*from head and foot BG. Kerby Blue from https://www.brandcolorcode.com/mount-royal-university */
+  --button:#3399FF;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 100px;
+  background-color: var(--kerby); 
+
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+header .logo {
+  font-weight: bold;
+  color: white;
+}
+
+header nav ul {
+  list-style: none;  
+  display: flex;     
+  gap: 40px;         
+  margin: 0;
+  padding: 0;
+}
+
+header nav a {
+  color: #e7eef6;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+header nav a.active,
+header nav a[aria-current="page"] {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+footer {max-width: 1280px;margin: 0 auto; }
+
+footer.site-footer {
+  background: var(--kerby);
+  color: #fff;
+  text-align: center;
+}
+
+/* Inner layout */
+.footer-container { max-width: 1000px; margin: 0 auto; padding: 36px 20px; }
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 16px;
+  justify-items: center;
+}
+.footer-grid h4 { margin: 0 0 10px; font-weight: 700; }
+.footer-grid ul { list-style: none; margin: 8px 0 0; padding: 10px;}
+
+/* Link styles (no underline, light color) */
+.site-footer a,
+.site-footer a:link,
+.site-footer a:visited {
+  color: #cfd8e3;
+  text-decoration: none;
+}
+.site-footer a:hover,
+.site-footer a:focus-visible {
+  color: #ffffff;
+  text-decoration: underline;
+}
+.site-footer a:active { color: #ffffff; }
+
+.site-footer .footer-grid {
+  gap: 32px 16px;
+  font-size: 0.95rem;
+  line-height: 1.5; 
+}
