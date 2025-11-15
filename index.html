@@ -9,35 +9,61 @@
 <body>
     <!--header-->
     <section class="full-bleed">
-    <header class="site-header">
-        <div class="logo"><img src="/Nepal National Flag.png"><span>लुगा (Lugā)</span></div>
-            <nav>
-                <ul>
-                    <li><a href="index.html" class="active" aria-current="page">Home</a></li>
-                    <li><a href="#">Women</a></li>
-                    <li><a href="#">Men</a></li>
-                    <li><a href="#">Browse</a></li>
-                    <li><a href="#">About</a></li>
-                </ul>
-            </nav>
+      <header class="site-header">
+        <!-- top bar: logo + nav + cart -->
+          <div class="logo">
+            <img src="/images/Nepal National Flag.png" alt="Lugā logo">
+            <span>लुगा (Lugā)</span>
+          </div>
 
-            <a class="cart-link" href="/cart">
-                Cart
-                <span class="cart-badge" id="cartCount" aria-label="Items in cart">0</span>
-            </a>  
-        </header>  
+          <nav>
+            <ul>
+              <li><a href="index.html" class="active" aria-current="page">Home</a></li>
+              <li><a href="#" id="navWomen">Women</a></li>
+              <li><a href="#" id="navMen">Men</a></li>
+              <li><a href="#" id="navBrowse">Browse</a></li>
+              <li><a href="#" id="aboutLink">About</a></li>
+            </ul>
+          </nav>
+
+          <a class="cart-link" href="/cart">
+            Cart
+            <span class="cart-badge" id="cartCount" aria-label="Items in cart">0</span>
+          </a>
+        </header>
+
+        <!-- HERO just below the nav bar -->
+        <div class="hero">
+            <div class="hero-text">
+                <div id="heroCopy">
+                    <h1>Crafted Style from Kathmandu to You</h1>
+                    <p>Thoughtful, modern pieces inspired by Nepal's timeless heritage.</p>
+                </div>
+
+                <div id="heroLabel" class="hero-label hidden">
+                    <span id="heroCategoryLabel">WOMEN</span>
+                </div>
+
+            </div>
+        </div> 
     </section>
 
     <main>
         <article id="home">
-
-
-
+            <section class="home-intro" id="homeIntro">
+                <h2>Our Story</h2>
+                <p>
+                Born from a Canadian-Nepali friendship, <strong>LUGĀ</strong> blends Kathmandu's
+                vibrant craftsmanship with modern, easygoing design — thoughtful pieces inspired
+                by culture, creativity, and the joy of great clothing.
+                </p>
+            </section>
         </article>
         
         <article id="filter">
-
-
+            <section id="categoryGallery" class="category-gallery hidden">
+            <!-- category cards will be injected by JavaScript -->
+            </section>
 
         </article>
 
@@ -159,9 +185,47 @@
             <div class="toast" id="toast" role="status" aria-live="polite">Added to cart</div>
         </div>
 
-        <dialog id="about">
+        <dialog id="aboutDialog" class="about-dialog">
+            <button class="about-close" aria-label="Close about window">&times;</button>
 
+            <h2>About LUGA</h2>
 
+            <p>
+                LUGA is a tiny cross-continental idea between two friends from opposite sides 
+                of the world, <strong>Adam Cole</strong> (a maple-syrup-loving Canadian with a 
+                soft spot for cozy flannels) and <strong>Prerana Pradhan</strong> (a proud Nepali 
+                creative who grew up surrounded by Kathmandu’s colors, textures, and traditions). 
+                Together, they dreamed up a brand that blends the heart of Nepal with a touch of 
+                Canadian practicality. LUGĀ celebrates the artisans, stories, and style of Nepal 
+                while keeping things modern, comfortable, and just a little bit cheeky. Whether 
+                you’re here for bold craftsmanship, thoughtful design, or the joy of discovering 
+                something new, LUGĀ is your passport to a wardrobe inspired by two cultures, one 
+                friendship, and a whole lot of love for great clothing.
+            </p>
+
+            <p>
+                This site was built for <strong>COMP 3612 – Web Development</strong> using
+                semantic HTML5, modern CSS (Flexbox &amp; Grid), vanilla JavaScript, and JSON
+                product data. All the code lives on GitHub:
+                <a href="https://github.com/Adam-Cole/COMP-3612-Assignment-2" target="_blank" rel="noopener">
+                    github.com/Adam-Cole/COMP-3612-Assignment-2
+                </a>.
+            </p>
+
+            <p>
+                Poke around, add some pieces to your cart, and imagine the smell of momo
+                and masala chai drifting in from a Kathmandu street.
+            </p>
+
+            <p>
+                Image references:
+                <div>Hero image: <a href="https://en.wikipedia.org/wiki/Kathmandu#/media/File:Boudhanath_Panorama_2016.jpg">https://en.wikipedia.org/wiki/Kathmandu#/media/File:Boudhanath_Panorama_2016.jpg</a></div>
+
+            </p>
+
+            <div style="text-align:right; margin-top:1rem;">
+                <button class="about-ok">Close</button>
+            </div>
         </dialog>
 
     </main>
@@ -201,5 +265,6 @@
         <p class="copy">&copy; 2025 COMP3612.All rights reserved </p>
     </div>
     </footer>
+    <script src="index.js"></script>
 </body>
 </html>

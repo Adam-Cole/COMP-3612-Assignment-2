@@ -5,6 +5,11 @@
   --toggle:#2563eb; /* color for custom radio toggle */
 }
 
+/* utility */
+.hidden {
+  display: none !important;
+}
+
 body { font-family: "Roboto Condensed", sans-serif; margin: 0;}
 
 /* Header Layout */
@@ -15,26 +20,173 @@ body { font-family: "Roboto Condensed", sans-serif; margin: 0;}
   gap:16px;
   padding:10px 16px;
   background-color: var(--nepal-blue);
+  color: #fff;
+}
+
+/* make the top section stretch full width */
+.full-bleed {
+  margin: 0;
+}
+
+/* HERO section under the header */
+.hero {
+  width: 100%;
+  height: 40vh; /* originally 260px, shorter, not sure which is visually better */
+  min-height: 260px;
+  background-image: url("/images/Hero_Boudhanath_Panorama_2016.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  padding: 32px 16px;
+  transition: height 0.6s ease;
+}
+
+/* Compact height for WOMEN / MEN views */
+.hero.hero--compact {
+  height: 260px;
+}
+
+.hero-text {
+  max-width: 700px;                     /* a bit wider */
+  background: rgba(0, 0, 0, 0.7);       /* darker overlay = more contrast */
+  color: #fff;
+  padding: 18px 26px;
+  border-radius: 8px;
+}
+
+/* default home tagline */
+#heroCopy h1 {
+  margin: 0 0 8px;
+  font-size: 2.2rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+#heroCopy p {
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+
+/* WOMEN / MEN label style */
+.hero-label {
+  text-align: left;
+}
+.hero-label span {
+  display: inline-block;
+  font-size: 3rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 800;
+  text-shadow: 0 3px 6px rgba(0,0,0,0.6);
+}
+
+/* home intro under hero */
+.home-intro {
+  max-width: 960px;
+  margin: 3rem auto 2rem;
+  padding: 0 1.5rem;
+  line-height: 1.7;
+  color: #1f2933;
+  font-size: 1rem;
+}
+
+/* category gallery for Women/Men */
+.category-gallery {
+  max-width: var(--page-max);
+  margin: 3rem auto 2rem;
+  padding: 0 var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .category-gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .category-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .category-gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
+.category-card {
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 16px 12px;
+  text-align: center;
+  background: #ffffff;
+  box-shadow: 0 4px 8px rgba(15, 23, 42, 0.05);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.12);
+}
+
+.category-card .placeholder {
+  height: 80px;
+  border: 1px dashed #d1d5db;
+  background: #f9fafb;
+  margin-bottom: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.category-card .label {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 /* Left / center / right alignment */
-.logo{ font-weight:700; justify-self:start; align-items: center;}
+/* Logo layout */
+.logo {
+  display: flex;
+  align-items: center;   /* vertically center image + text */
+  gap: 12px;
+}
+
+.logo img {
+  height: 80px;          
+  width: auto;
+}
+
+.logo span {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #fff;
+}
 .main-nav{ justify-self:center; }
 .cart-link{ justify-self:end; }
 
 .site-header nav ul{
   display:flex;
-  gap:12px;              /* space between text and the pipes */
+  gap:0;                  
   list-style:none;
-  margin:0; padding:0;
+  margin:0;
+  padding:0;
+  font-size: 1.8rem;
 }
 
 .site-header nav li + li{ position:relative; }
 
 .site-header nav li + li::before{
   content:"|";
-  color:white;            /* pipe color */
-  margin:0 6px 0 2px;    /* space around the pipe */
+  color:white;
+  margin:0 10px;          /* equal space on both sides of the pipe */
 }
 
 header .logo {
@@ -259,4 +411,105 @@ footer.site-footer {
   padding: 10;
   font-style: strong;
   font-size: 30px;
+}
+
+/* ===== About dialog / modal ===== */
+
+.about-dialog {
+  border: none;
+  border-radius: 10px;
+  padding: 24px 28px 20px;
+  max-width: 640px;
+  width: 90%;
+  font-size: 14px;
+  line-height: 1.5;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+  position: relative;
+}
+
+.about-dialog h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.about-dialog a {
+  color: var(--button);
+  text-decoration: underline;
+}
+
+/* backdrop dimmer */
+.about-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+/* close “X” button in top-right */
+.about-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  color: #666;
+}
+
+.about-close:hover {
+  color: #000;
+}
+
+.about-ok {
+  padding: 6px 14px;
+  border-radius: 4px;
+  border: none;
+  background: var(--button);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.about-ok:hover {
+  filter: brightness(1.1);
+}
+
+/* ===== Home intro (about blurb under hero) ===== */
+
+.home-intro {
+  max-width: 960px;
+  margin: 3rem auto 2rem;
+  padding: 0 1.5rem;
+  line-height: 1.7;
+  color: #1f2933;
+  font-size: 1rem;
+  animation: fadeUp 0.7s ease-out 0.15s both; /* subtle entrance */
+}
+
+.home-intro h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: var(--nepal-blue);
+}
+
+.home-intro p {
+  margin: 0;
+}
+
+/* Small screens: center the text for nicer layout */
+@media (max-width: 600px) {
+  .home-intro {
+    text-align: center;
+  }
+}
+
+/* Simple fade/slide-up animation */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
