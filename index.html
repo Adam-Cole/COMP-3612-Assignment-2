@@ -79,8 +79,8 @@
                         <span class="arrow">▾</span>
                     </div>
                     <div class="collapsible-content expanded" data-filter-group="gender">
-                        <button type="button" class="filter-pill" data-gender="womens">Female</button>
-                        <button type="button" class="filter-pill" data-gender="mens">Male</button>
+                        <button type="button" class="filter-pill" data-gender="womens">Women's</button>
+                        <button type="button" class="filter-pill" data-gender="mens">Men's</button>
                     </div>
                 </div>
 
@@ -108,14 +108,17 @@
                 <div class="filter-group collapsible">
                     <div class="collapsible-header">
                         <h4>Size</h4>
-                        <span class="arrow">▾</span>
+                        <span class="arrow">▴</span>
                     </div>
-                    <div class="collapsible-content expanded" data-filter-group="size">
+                    <!-- <div class="collapsible-content expanded" data-filter-group="size">
                         <label><input type="checkbox" data-size="Extra Small"> Extra Small</label><br>
                         <label><input type="checkbox" data-size="Small"> Small</label><br>
                         <label><input type="checkbox" data-size="Medium"> Medium</label><br>
                         <label><input type="checkbox" data-size="Large"> Large</label><br>
                         <label><input type="checkbox" data-size="Extra Large"> Extra Large</label>
+                    </div> -->
+                    <div class="collapsible-content" id="sizeFilter">
+                        <!-- JS will generate size checkboxes here -->
                     </div>
                 </div>
 
@@ -159,7 +162,7 @@
                         </div>
                     </header>
 
-                    <div class="browse-tags" id="browseTags"></div>
+                    <div id="browseTags" class="browse-tags"></div>
 
                 <!-- products grid -->
                     <section class="browse-grid" id="browseGrid">
@@ -289,9 +292,7 @@
 
         <dialog id="aboutDialog" class="about-dialog">
             <button class="about-close" aria-label="Close about window">&times;</button>
-
             <h2>About LUGA</h2>
-
             <p>
                 LUGA is a tiny cross-continental idea between two friends from opposite sides 
                 of the world, <strong>Adam Cole</strong> (a maple-syrup-loving Canadian with a 
@@ -304,7 +305,6 @@
                 something new, LUGĀ is your passport to a wardrobe inspired by two cultures, one 
                 friendship, and a whole lot of love for great clothing.
             </p>
-
             <p>
                 This site was built for <strong>COMP 3612 – Web Development</strong> using
                 semantic HTML5, modern CSS (Flexbox &amp; Grid), vanilla JavaScript, and JSON
@@ -313,24 +313,21 @@
                     github.com/Adam-Cole/COMP-3612-Assignment-2
                 </a>.
             </p>
-
             <p>
                 Poke around, add some pieces to your cart, and imagine the smell of momo
                 and masala chai drifting in from a Kathmandu street.
             </p>
-
             <p>
                 Image references:
                 <div>Hero image: <a href="https://en.wikipedia.org/wiki/Kathmandu#/media/File:Boudhanath_Panorama_2016.jpg">https://en.wikipedia.org/wiki/Kathmandu#/media/File:Boudhanath_Panorama_2016.jpg</a></div>
 
             </p>
-
             <div style="text-align:right; margin-top:1rem;">
                 <button class="about-ok">Close</button>
             </div>
         </dialog>
-
     </main>
+
     <!--Footer-->
     <footer class="site-footer">
     <div class="footer-container">

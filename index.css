@@ -313,18 +313,47 @@ header .logo {
 
 /* results tags row (chips under “Results”) */
 .browse-tags {
-  min-height: 28px;
-  margin-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+}
+
+.browse-tags-label {
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.browse-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #cbd5e1;
+  background: #e5edf7;
+  cursor: pointer;
+}
+
+.browse-tag span {
+  pointer-events: none;
+}
+
+.browse-tag-remove {
   font-size: 0.8rem;
 }
 
-.browse-tags .tag {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px 8px;
+.browse-clear {
+  margin-left: 8px;
+  padding: 2px 8px;
+  font-size: 0.8rem;
   border-radius: 999px;
-  background: #e5e7eb;
-  margin: 0 6px 4px 0;
+  border: 1px solid #cbd5e1;
+  background: #f3f4f6;
+  cursor: pointer;
 }
 
 /* product grid under categories */
@@ -422,10 +451,6 @@ header .logo {
 }
 
 .collapsible-content.expanded {
-  max-height: 500px; 
-}
-
-.collapsible-content[data-filter-group="color"].expanded {
   max-height: 1200px;
 }
 

@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupAboutDialog();
   setupCategoryView();
   setupBrowse();
+  setupBrowseFilters();
 });
 
 function loadProducts() {
@@ -108,13 +109,85 @@ function loadProducts() {
       console.log("Loaded products:", products);
 
       // Rebuild any dynamic UI that depends on products
-      buildColorFilters();          // your dynamic COLORS accordion
-      // renderBrowseGrid();        // if you want to refresh the browse view
-      // renderHomeFeatured();      // etc., if you have other product-based UIs
+      buildSizeFilters()
+      buildColorFilters();          // dynamic COLORS accordion
+      applyBrowseFilters();
     })
     .catch(err => {
       console.error("Error loading products JSON:", err);
     });
+}
+
+const SIZE_TYPE_MAP = {
+  // clothing (general sizes)
+  'XS': 'Clothing',
+  'S':  'Clothing',
+  'M':  'Clothing',
+  'L':  'Clothing',
+  'XL': 'Clothing',
+
+  // dual sizes (robe / loungewear style)
+  'S/M':  'Dual clothing',
+  'L/XL': 'Dual clothing',
+
+  // one size accessories / scarves / bags
+  'One Size': 'One-size / accessories',
+
+  // pants (waist)
+  '24': 'Pants',
+  '26': 'Pants',
+  '28': 'Pants',
+  '30': 'Pants',
+  '32': 'Pants',
+
+  // numeric shoe sizes
+  '6':  'Shoe size',
+  '7':  'Shoe size',
+  '8':  'Shoe size',
+  '9':  'Shoe size',
+  '10': 'Shoe size'
+};
+
+function buildSizeFilters() {
+  const container = document.querySelector('#sizeFilter');
+  if (!container || !products || products.length === 0) return;
+
+  const seen = new Set();
+  const sizes = [];
+
+  products.forEach(p => {
+    (p.sizes || []).forEach(sz => {
+      if (!sz || seen.has(sz)) return;
+      seen.add(sz);
+      sizes.push(sz);
+    });
+  });
+
+  sizes.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+
+  container.innerHTML = '';
+
+  sizes.forEach(sz => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'filter-checkbox';
+
+    const id = `size-${sz.replace(/\W+/g, '').toLowerCase()}`;
+
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.id = id;
+    input.dataset.size = sz;
+
+    const label = document.createElement('label');
+    label.htmlFor = id;
+
+    // Look up a friendly type label (Shoes, Clothing, etc.)
+    const type = SIZE_TYPE_MAP[sz];
+    label.textContent = type ? `${sz} (${type})` : sz;
+
+    wrapper.append(input, label);
+    container.appendChild(wrapper);
+  });
 }
 
 function buildGenderCategoryCards() {
@@ -193,17 +266,202 @@ function buildColorFilters() {
     input.name = 'color';
     input.value = c.name;
     input.dataset.hex = c.hex;   // for swatches
+    input.dataset.color = c.name;
 
     const text = document.createElement('span');
     text.textContent = c.name;
 
-    // If you want a tiny swatch but still “toggle-style”, you can add:
+    // tiny swatch but still “toggle-style”
     const swatch = document.createElement('span');
     swatch.className = 'color-swatch';
     swatch.style.backgroundColor = c.hex;
     label.append(input, swatch, text);
     container.appendChild(label);
   });
+}
+
+const sizeTypeMap = {
+  // Clothing
+  'XS': 'Clothing',
+  'S':  'Clothing',
+  'M':  'Clothing',
+  'L':  'Clothing',
+  'XL': 'Clothing',
+  'One Size': 'Clothing',
+  'S/M': 'Clothing',
+  'L/XL': 'Clothing',
+
+  // Pants (waist)
+  '24': 'Pants',
+  '26': 'Pants',
+  '28': 'Pants',
+  '30': 'Pants',
+  '32': 'Pants',
+
+  // Shoes
+  '6': 'Shoes',
+  '7': 'Shoes',
+  '8': 'Shoes',
+  '9': 'Shoes'
+};
+
+const browseFilters = {
+  genders: new Set(),      // 'womens' , 'mens'
+  categories: new Set(),    // 'Tops', 'Intimates', ...
+  sizes: new Set(),  // 'Small', 'Medium', ...
+  colors: new Set()  // 'Beige', 'Blue', ...
+};
+
+function setupBrowseFilters() {
+  const sidebar = document.querySelector('.browse-filters');
+  const tagsRow = document.querySelector('#browseTags');
+
+  if (!sidebar || !tagsRow) return;
+
+  // Gender + category: click on pill buttons
+  sidebar.addEventListener('click', (e) => {
+    const pill = e.target.closest('.filter-pill');
+    if (!pill) return;
+
+    if (pill.dataset.gender) {
+        // ---- GENDER: multi-select (mens, womens) ----
+        const g = pill.dataset.gender; // 'mens' or 'womens'
+
+        if (browseFilters.genders.has(g)) {
+            // turn OFF
+            browseFilters.genders.delete(g);
+            pill.classList.remove('active');
+        } else {
+            // turn ON
+            browseFilters.genders.add(g);
+            pill.classList.add('active');
+        }
+
+        } else if (pill.dataset.category) {
+        // ---- CATEGORY: multi-select, with special "All" ----
+        const c = pill.dataset.category; // 'All', 'Tops', 'Intimates', ...
+
+        const allPill = sidebar.querySelector('.filter-pill[data-category="All"]');
+
+        if (c === 'All') {
+            // "All" means no category filters
+            browseFilters.categories.clear();
+
+            // visually: All ON, others OFF
+            sidebar
+            .querySelectorAll('.filter-pill[data-category]')
+            .forEach(btn => btn.classList.remove('active'));
+            if (allPill) allPill.classList.add('active');
+
+        } else {
+            // toggle this category
+            const isActive = browseFilters.categories.has(c);
+
+            if (isActive) {
+            browseFilters.categories.delete(c);
+            pill.classList.remove('active');
+            } else {
+            browseFilters.categories.add(c);
+            pill.classList.add('active');
+            }
+
+            // if any specific categories selected, All should NOT look active
+            if (allPill) {
+            allPill.classList.toggle('active', browseFilters.categories.size === 0);
+            }
+        }
+        }
+
+        applyBrowseFilters();
+  });
+
+  // Size + color: checkbox changes
+  sidebar.addEventListener('change', (e) => {
+    const input = e.target;
+
+    if (input.dataset.size) {
+      const size = input.dataset.size;
+      if (input.checked) {
+        browseFilters.sizes.add(size);
+      } else {
+        browseFilters.sizes.delete(size);
+      }
+      applyBrowseFilters();
+    }
+
+    if (input.dataset.color) {
+      const color = input.dataset.color;
+      if (input.checked) {
+        browseFilters.colors.add(color);
+      } else {
+        browseFilters.colors.delete(color);
+      }
+      applyBrowseFilters();
+    }
+  });
+
+  // Tag row: click on a tag or Clear All (event delegation)
+  tagsRow.addEventListener('click', (e) => {
+    const clearBtn = e.target.closest('.browse-clear');
+    const tag = e.target.closest('.browse-tag');
+
+    if (clearBtn) {
+      clearAllBrowseFilters();
+    } else if (tag) {
+      const type = tag.dataset.type;
+      const value = tag.dataset.value;
+      removeSingleFilter(type, value);
+    }
+  });
+}
+
+function applyBrowseFilters() {
+  if (!products || products.length === 0) return;
+
+  let list = [...products];
+
+  // gender
+  if (browseFilters.genders.size > 0) {
+    list = list.filter(p => browseFilters.genders.has(p.gender));
+  }
+
+  // category (null = All)
+  if (browseFilters.categories.size > 0) {
+    list = list.filter(p => browseFilters.categories.has(p.category));
+  }
+
+  // size (intersection)
+  if (browseFilters.sizes.size > 0) {
+    list = list.filter(p => {
+      const sizes = p.sizes || [];
+      return sizes.some(sz => browseFilters.sizes.has(sz));
+    });
+  }
+
+  // color (intersection on color.name)
+  if (browseFilters.colors.size > 0) {
+    list = list.filter(p => {
+      const colorArray = p.color || p.colors || [];
+      const names = colorArray.map(c => typeof c === 'string' ? c : c.name);
+      return names.some(name => browseFilters.colors.has(name));
+    });
+  }
+
+  // sort (using existing browseState.sort)
+  if (browseState.sort === 'name') {
+    list.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (browseState.sort === 'category') {
+    list.sort((a, b) => a.category.localeCompare(b.category));
+  } else if (browseState.sort === 'price-asc') {
+    list.sort((a, b) => a.price - b.price);
+  } else if (browseState.sort === 'price-desc') {
+    list.sort((a, b) => b.price - a.price);
+  } else if (browseState.sort === 'best-sales') {
+    list.sort((a, b) => (b.sales?.total || 0) - (a.sales?.total || 0));
+  }
+
+  renderBrowseGrid(list);
+  renderBrowseTags();
 }
 
 function setupBrowse() {
@@ -260,7 +518,7 @@ function setupBrowse() {
       if (genderCategoriesSection) genderCategoriesSection.classList.add('hidden');
       filterArticle.classList.remove('hidden');
 
-      renderBrowseGrid();
+      applyBrowseFilters();
       setupAccordions();
     });
   }
@@ -269,79 +527,7 @@ function setupBrowse() {
   if (browseSort) {
     browseSort.addEventListener('change', () => {
       browseState.sort = browseSort.value;
-      renderBrowseGrid();
-    });
-  }
-
-  // core renderer: apply filters to `products` and paint grid
-  function renderBrowseGrid() {
-    if (!products || products.length === 0) return;
-
-    let list = [...products];
-
-    // filter by gender if wired later from sidebar pills
-    if (browseState.gender) {
-      list = list.filter(p => p.gender === browseState.gender);
-    }
-
-    // filter by category from sidebar (if you wire it)
-    if (browseState.category && browseState.category !== 'All') {
-      list = list.filter(p => p.category === browseState.category);
-    }
-
-    // sort
-    if (browseState.sort === 'name') {
-      list.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (browseState.sort === 'price-asc') {
-      list.sort((a, b) => a.price - b.price);
-    } else if (browseState.sort === 'price-desc') {
-      list.sort((a, b) => b.price - a.price);
-    }
-
-    // render cards
-    browseGrid.innerHTML = '';
-    list.forEach(p => {
-        const card = document.createElement('article');
-        card.classList.add('product-card');
-
-        // top placeholder image
-        const imgPlaceholder = document.createElement('div');
-        imgPlaceholder.classList.add('placeholder-img');
-        imgPlaceholder.textContent = 'placeholder';
-
-        // title
-        const title = document.createElement('div');
-        title.classList.add('title');
-        title.textContent = p.name;
-
-        // bottom row: price + button
-        const footer = document.createElement('div');
-        footer.classList.add('product-footer');
-
-        const price = document.createElement('span');
-        price.classList.add('price');
-        price.textContent = `$${p.price.toFixed(2)}`;
-
-        const addBtn = document.createElement('button');
-        addBtn.type = 'button';
-        addBtn.classList.add('btn-add-cart');
-        addBtn.dataset.id = p.id;
-        addBtn.setAttribute('aria-label', `Add ${p.name} to cart`);
-        addBtn.textContent = '+';
-
-        // (optional) hook up add-to-cart logic here
-        // addBtn.addEventListener('click', () => addToCartFromBrowse(p));
-
-        footer.appendChild(price);
-        footer.appendChild(addBtn);
-
-        // assemble card
-        card.appendChild(imgPlaceholder);
-        card.appendChild(title);
-        card.appendChild(footer);
-
-        // add to grid
-        browseGrid.appendChild(card);
+      applyBrowseFilters();
     });
   }
 
@@ -360,9 +546,196 @@ function setupBrowse() {
       });
     });
   }
+}
 
-  // optional: expose for debugging in console
-  window.renderBrowseGrid = renderBrowseGrid;
+function renderBrowseGrid(list) {
+  const grid = document.querySelector('#browseGrid');
+  if (!grid) return;
+
+  grid.textContent = '';
+
+  list.forEach(p => {
+    const card = document.createElement('article');
+    card.classList.add('product-card');
+
+    const imgPlaceholder = document.createElement('div');
+    imgPlaceholder.classList.add('placeholder-img');
+    imgPlaceholder.textContent = 'placeholder';
+
+    const title = document.createElement('div');
+    title.classList.add('title');
+    title.textContent = p.name;
+
+    const footer = document.createElement('div');
+    footer.classList.add('product-footer');
+
+    const price = document.createElement('span');
+    price.classList.add('price');
+    price.textContent = `$${p.price.toFixed(2)}`;
+
+    const addBtn = document.createElement('button');
+    addBtn.type = 'button';
+    addBtn.classList.add('btn-add-cart');
+    addBtn.dataset.id = p.id;
+    addBtn.setAttribute('aria-label', `Add ${p.name} to cart`);
+    addBtn.textContent = '+';
+
+    footer.appendChild(price);
+    footer.appendChild(addBtn);
+
+    card.appendChild(imgPlaceholder);
+    card.appendChild(title);
+    card.appendChild(footer);
+
+    grid.appendChild(card);
+  });
+}
+
+function renderBrowseTags() {
+  const tagsRow = document.querySelector('#browseTags');
+  if (!tagsRow) return;
+
+  tagsRow.textContent = '';
+
+  const hasAny =
+    browseFilters.genders.size > 0 ||
+    browseFilters.categories.size > 0 ||
+    browseFilters.sizes.size > 0 ||
+    browseFilters.colors.size > 0;
+
+  const label = document.createElement('span');
+  label.classList.add('browse-tags-label');
+  label.textContent = 'Results';
+  tagsRow.appendChild(label);
+
+  if (!hasAny) {
+    const span = document.createElement('span');
+    span.textContent = 'All products';
+    tagsRow.appendChild(span);
+    return;
+  }
+
+  const tags = [];
+
+  // gender
+  browseFilters.genders.forEach(g => {
+    tags.push({
+      type: 'gender',
+      value: g,
+      label: g === 'womens' ? "Women's" : "Men's"
+    });
+  });
+
+  // categories
+  browseFilters.categories.forEach(cat => {
+    tags.push({
+      type: 'category',
+      value: cat,
+      label: cat
+    });
+  });
+
+  // sizes
+  browseFilters.sizes.forEach(size => {
+    const typeLabel = sizeTypeMap[size] || 'Size';
+    tags.push({
+        type: 'size',
+        value: size,
+        label: `${size} - ${typeLabel}`   // e.g. "7 – Shoes"
+    });
+  });
+
+  // colors
+  browseFilters.colors.forEach(color => {
+    tags.push({ type: 'color', value: color, label: color });
+  });
+
+  tags.forEach(t => {
+    const tagEl = document.createElement('button');
+    tagEl.type = 'button';
+    tagEl.classList.add('browse-tag');
+    tagEl.dataset.type = t.type;
+    tagEl.dataset.value = t.value;
+
+    const text = document.createElement('span');
+    text.textContent = t.label;
+
+    const x = document.createElement('span');
+    x.classList.add('browse-tag-remove');
+    x.textContent = '×';
+
+    tagEl.appendChild(text);
+    tagEl.appendChild(x);
+    tagsRow.appendChild(tagEl);
+  });
+
+  const clearBtn = document.createElement('button');
+  clearBtn.type = 'button';
+  clearBtn.classList.add('browse-clear');
+  clearBtn.textContent = '✕ Clear All';
+  tagsRow.appendChild(clearBtn);
+}
+
+function clearAllBrowseFilters() {
+  browseFilters.genders.clear();
+  browseFilters.categories.clear();
+  browseFilters.sizes.clear();
+  browseFilters.colors.clear();
+
+  const sidebar = document.querySelector('.browse-filters');
+  if (sidebar) {
+    sidebar.querySelectorAll('.filter-pill').forEach(btn => btn.classList.remove('active'));
+    sidebar.querySelectorAll('input[type="checkbox"]').forEach(input => {
+      input.checked = false;
+    });
+
+    // make "All" category pill active again
+    const allPill = sidebar.querySelector('.filter-pill[data-category="All"]');
+    if (allPill) allPill.classList.add('active');
+  }
+
+  applyBrowseFilters();
+}
+
+function removeSingleFilter(type, value) {
+  const sidebar = document.querySelector('.browse-filters');
+
+  if (type === 'gender') {
+    browseFilters.genders.delete(value);
+    if (sidebar) {
+      const pill = sidebar.querySelector(`.filter-pill[data-gender="${value}"]`);
+      if (pill) pill.classList.remove('active');
+    }
+
+  } else if (type === 'category') {
+    browseFilters.categories.delete(value);
+    if (sidebar) {
+      const pill = sidebar.querySelector(`.filter-pill[data-category="${value}"]`);
+      if (pill) pill.classList.remove('active');
+
+      // if no categories left, re-activate "All"
+      if (browseFilters.categories.size === 0) {
+        const allPill = sidebar.querySelector('.filter-pill[data-category="All"]');
+        if (allPill) allPill.classList.add('active');
+      }
+    }
+
+  } else if (type === 'size') {
+    browseFilters.sizes.delete(value);
+    if (sidebar) {
+      const input = sidebar.querySelector(`input[data-size="${value}"]`);
+      if (input) input.checked = false;
+    }
+
+  } else if (type === 'color') {
+    browseFilters.colors.delete(value);
+    if (sidebar) {
+      const input = sidebar.querySelector(`input[data-color="${value}"]`);
+      if (input) input.checked = false;
+    }
+  }
+
+  applyBrowseFilters();
 }
 
 function setupAboutDialog() {
