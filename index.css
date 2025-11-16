@@ -643,9 +643,10 @@ footer.site-footer {
   align-items: center;
   justify-content: center;
   color: white;
-  padding: 10;
-  font-style: strong;
+  padding: 10px;
+  font-weight: 700;
   font-size: 30px;
+  margin-bottom: 24px;
 }
 
 /* ===== About dialog / modal ===== */
