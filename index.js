@@ -192,7 +192,7 @@ function buildColorFilters() {
     input.type = 'checkbox';
     input.name = 'color';
     input.value = c.name;
-    input.dataset.hex = c.hex;   // handy later if you want swatches
+    input.dataset.hex = c.hex;   // for swatches
 
     const text = document.createElement('span');
     text.textContent = c.name;
@@ -301,16 +301,47 @@ function setupBrowse() {
     // render cards
     browseGrid.innerHTML = '';
     list.forEach(p => {
-      const card = document.createElement('article');
-      card.className = 'product-card';
+        const card = document.createElement('article');
+        card.classList.add('product-card');
 
-      card.innerHTML = `
-        <div class="placeholder-img">placeholder</div>
-        <div class="title">${p.name}</div>
-        <div class="price">$${p.price.toFixed(2)}</div>
-      `;
+        // top placeholder image
+        const imgPlaceholder = document.createElement('div');
+        imgPlaceholder.classList.add('placeholder-img');
+        imgPlaceholder.textContent = 'placeholder';
 
-      browseGrid.appendChild(card);
+        // title
+        const title = document.createElement('div');
+        title.classList.add('title');
+        title.textContent = p.name;
+
+        // bottom row: price + button
+        const footer = document.createElement('div');
+        footer.classList.add('product-footer');
+
+        const price = document.createElement('span');
+        price.classList.add('price');
+        price.textContent = `$${p.price.toFixed(2)}`;
+
+        const addBtn = document.createElement('button');
+        addBtn.type = 'button';
+        addBtn.classList.add('btn-add-cart');
+        addBtn.dataset.id = p.id;
+        addBtn.setAttribute('aria-label', `Add ${p.name} to cart`);
+        addBtn.textContent = '+';
+
+        // (optional) hook up add-to-cart logic here
+        // addBtn.addEventListener('click', () => addToCartFromBrowse(p));
+
+        footer.appendChild(price);
+        footer.appendChild(addBtn);
+
+        // assemble card
+        card.appendChild(imgPlaceholder);
+        card.appendChild(title);
+        card.appendChild(footer);
+
+        // add to grid
+        browseGrid.appendChild(card);
     });
   }
 
