@@ -18,7 +18,7 @@
 
           <nav>
             <ul>
-              <li><a href="index.html" class="active" aria-current="page">Home</a></li>
+              <li><a href="index.html" id="navHome" class="active" aria-current="page">Home</a></li>
               <li><a href="#" id="navWomen">Women</a></li>
               <li><a href="#" id="navMen">Men</a></li>
               <li><a href="#" id="navBrowse">Browse</a></li>
@@ -58,14 +58,116 @@
                 by culture, creativity, and the joy of great clothing.
                 </p>
             </section>
+
+            <!-- gender-specific category gallery for WOMEN / MEN -->
+            <section id="genderCategories" class="gender-categories hidden">
+                <section id="genderCategoryGallery" class="category-gallery">
+                    <!-- JS will inject the 12 category cards here -->
+                </section>
+            </section>
         </article>
         
-        <article id="filter">
-            <section id="categoryGallery" class="category-gallery hidden">
-            <!-- category cards will be injected by JavaScript -->
-            </section>
+        <article id="filter" class="hidden">
+            <section class="browse-layout">
+                <!-- LEFT: sidebar filters -->
+                <aside class="browse-filters" id="browseFilters">
+                <h3>Departments</h3>
 
-        </article>
+                <div class="filter-group collapsible">
+                    <div class="collapsible-header">
+                        <h4>Gender</h4>
+                        <span class="arrow">▾</span>
+                    </div>
+                    <div class="collapsible-content expanded" data-filter-group="gender">
+                        <button type="button" class="filter-pill" data-gender="womens">Female</button>
+                        <button type="button" class="filter-pill" data-gender="mens">Male</button>
+                    </div>
+                </div>
+
+                <div class="filter-group collapsible">
+                    <div class="collapsible-header">
+                        <h4>Category</h4>
+                        <span class="arrow">▾</span>
+                    </div>
+                    <div class="collapsible-content expanded" data-filter-group="category">
+                        <button type="button" class="filter-pill" data-category="All">All</button>
+                        <button type="button" class="filter-pill" data-category="Tops">Tops</button>
+                        <button type="button" class="filter-pill" data-category="Bottoms">Bottoms</button>
+                        <button type="button" class="filter-pill" data-category="Sweaters">Sweaters</button>
+                        <button type="button" class="filter-pill" data-category="Outerwear">Outerwear</button>
+                        <button type="button" class="filter-pill" data-category="Dresses">Dresses</button>
+                        <button type="button" class="filter-pill" data-category="Jumpsuits">Jumpsuits</button>
+                        <button type="button" class="filter-pill" data-category="Accessories">Accessories</button>
+                        <button type="button" class="filter-pill" data-category="Shoes">Shoes</button>
+                        <button type="button" class="filter-pill" data-category="Intimates">Intimates</button>
+                        <button type="button" class="filter-pill" data-category="Loungewear">Loungewear</button>
+                        <button type="button" class="filter-pill" data-category="Swimwear">Swimwear</button>
+                    </div>
+                </div>
+
+                <div class="filter-group collapsible">
+                    <div class="collapsible-header">
+                        <h4>Size</h4>
+                        <span class="arrow">▾</span>
+                    </div>
+                    <div class="collapsible-content expanded" data-filter-group="size">
+                        <label><input type="checkbox" data-size="Extra Small"> Extra Small</label><br>
+                        <label><input type="checkbox" data-size="Small"> Small</label><br>
+                        <label><input type="checkbox" data-size="Medium"> Medium</label><br>
+                        <label><input type="checkbox" data-size="Large"> Large</label><br>
+                        <label><input type="checkbox" data-size="Extra Large"> Extra Large</label>
+                    </div>
+                </div>
+
+                <!-- <div class="filter-group collapsible">
+                    <div class="collapsible-header">
+                        <h4>Colors</h4>
+                        <span class="arrow">▾</span>
+                    </div>
+                    <div class="collapsible-content expanded" data-filter-group="color">
+                        <div class="color-chip" data-color="Beige"></div> Beige<br>
+                        <div class="color-chip" data-color="Black"></div> Black<br>
+                        <div class="color-chip" data-color="Blue"></div> Blue<br>
+                        <div class="color-chip" data-color="Ivory"></div> Blue<br>
+                    </div>
+                </div> -->
+                <div class="filter-group">
+                    <div class="collapsible-header">
+                        <span>Colors</span>
+                        <span class="arrow">&#9662;</span>
+                    </div>
+                    <div class="collapsible-content" id="colorFilter">
+                        <!-- JS will generate color checkboxes here -->
+                    </div>
+                </div>
+                
+                </aside>
+
+                <!-- RIGHT: browse content -->
+                <section class="browse-main">
+                    <header class="browse-header">
+                        <h2>Browse</h2>
+                        <div class="browse-sort">
+                        <label for="browseSort">Sort</label>
+                        <select id="browseSort">
+                            <option value="name">Alphabetical: Product Name</option>
+                            <option value="category">Alphabetical: Category</option>
+                            <option value="price-asc">Price: Lowest to Highest</option>
+                            <option value="price-desc">Price: Highest to Lowest</option>
+                            <option value="best-sales">Sales: Popularity</option>
+                        </select>
+                        </div>
+                    </header>
+
+                    <div class="browse-tags" id="browseTags"></div>
+
+                <!-- products grid -->
+                    <section class="browse-grid" id="browseGrid">
+                    <!-- JS will insert product cards here -->
+                    </section>
+                </section>
+              </section>
+            </article>
 
         <article id="singleproduct">
 
