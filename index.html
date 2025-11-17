@@ -172,13 +172,68 @@
               </section>
             </article>
 
-        <article id="singleproduct">
+        <article id="singleproduct" class="hidden">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb" id="spBreadcrumb"></nav>
 
+            <section class="product-page">
+                <!-- Main product row -->
+                <section class="product-main">
+                <!-- LEFT: images -->
+                <div class="product-images">
+                    <div class="product-image-main">
+                    <div class="placeholder">Main product image placeholder</div>
+                    </div>
+                    <div class="product-image-thumbs">
+                    <div class="placeholder">Smaller image</div>
+                    <div class="placeholder">Smaller image</div>
+                    </div>
+                </div>
 
+                <!-- RIGHT: details -->
+                <div class="product-details">
+                    <h1 id="spTitle">Product Title</h1>
+                    <p class="product-price" id="spPrice">$0.00</p>
 
-        </article>
+                    <p class="product-description" id="spDescription">
+                    Product description placeholder.
+                    </p>
 
-        <div class="wrap">
+                    <p class="product-material">
+                    <strong>Material:</strong>
+                    <span id="spMaterial"></span>
+                    </p>
+
+                    <div class="product-quantity">
+                    <label for="spQty"><strong>Quantity</strong></label>
+                    <input type="number" id="spQty" min="1" value="1" />
+                    </div>
+
+                    <div class="product-sizes">
+                    <strong>Available Sizes</strong>
+                    <div id="spSizes" class="size-pill-row"></div>
+                    </div>
+
+                    <div class="product-colors">
+                    <strong>Colors</strong>
+                    <div id="spColors" class="color-swatch-row"></div>
+                    </div>
+
+                    <button id="spAddToCart" class="btn-primary">
+                    + Add to Cart
+                    </button>
+                </div>
+                </section>
+
+                <!-- Related products -->
+                <section class="product-related">
+                <h2>Related Products</h2>
+                <div class="browse-grid" id="spRelatedGrid"></div>
+                </section>
+            </section>
+            </article>
+
+        <div class="cart-wrap hidden" id="cartView">
             <h1>Shopping Cart</h1>
 
             <section class="cart" data-state="empty">
@@ -285,10 +340,10 @@
                 </div>
             </div>
             </section>
-
-            <!-- Toast placeholder -->
-            <div class="toast" id="toast" role="status" aria-live="polite">Added to cart</div>
         </div>
+
+        <!-- Toast placeholder -->
+        <div class="toast" id="toast" role="status" aria-live="polite">Added to cart</div>
 
         <dialog id="aboutDialog" class="about-dialog">
             <button class="about-close" aria-label="Close about window">&times;</button>

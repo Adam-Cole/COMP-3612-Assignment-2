@@ -9,6 +9,24 @@ const browseState = {
   sort: 'name'
 };
 
+let toastTimer = null;
+
+// Toast notification
+function showToast(message) {
+  const toast = document.querySelector('#toast');
+  if (!toast) return;
+
+  toast.textContent = message;
+  toast.classList.add('show');
+
+  if (toastTimer) {
+    clearTimeout(toastTimer);
+  }
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2000);
+}
+
 function renderCart() {
   const cartSection   = document.querySelector('.cart');
   const itemsContainer = document.querySelector('#cartItems');
@@ -94,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupCategoryView();
   setupBrowse();
   setupBrowseFilters();
+  setupCartButton();
 });
 
 function loadProducts() {
@@ -486,6 +505,7 @@ function setupBrowse() {
   if (navBrowse) {
     navBrowse.addEventListener('click', (e) => {
       e.preventDefault();
+      hideAllMainViews();
 
       // nav states
       navBrowse.classList.add('active');
@@ -579,6 +599,17 @@ function renderBrowseGrid(list) {
     addBtn.dataset.id = p.id;
     addBtn.setAttribute('aria-label', `Add ${p.name} to cart`);
     addBtn.textContent = '+';
+
+    // Clicking the "+" adds to cart (but doesn't open detail)
+    addBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // don't trigger card click
+      addToCart(p, 1);
+    });
+
+    // Clicking anywhere else on the card opens the single product view
+    card.addEventListener('click', () => {
+      showSingleProduct(p.id);
+    });
 
     footer.appendChild(price);
     footer.appendChild(addBtn);
@@ -738,6 +769,42 @@ function removeSingleFilter(type, value) {
   applyBrowseFilters();
 }
 
+function hideAllMainViews() {
+  const heroSection = document.querySelector('.hero');
+  const homeIntro   = document.querySelector('#homeIntro');
+  const genderCats  = document.querySelector('#genderCategories');
+  const browseView  = document.querySelector('#filter');
+  const singleView  = document.querySelector('#singleproduct');
+  const cartView    = document.querySelector('#cartView');
+
+  if (heroSection) heroSection.classList.add('hidden');
+  if (homeIntro)   homeIntro.classList.add('hidden');
+  if (genderCats)  genderCats.classList.add('hidden');
+  if (browseView)  browseView.classList.add('hidden');
+  if (singleView)  singleView.classList.add('hidden');
+  if (cartView)    cartView.classList.add('hidden');
+}
+
+function showCartView() {
+  hideAllMainViews(); // hide hero, home, gender cats, browse, single
+
+  const cartView = document.querySelector('#cartView');
+  if (cartView) {
+    cartView.classList.remove('hidden');
+  }
+}
+
+function setupCartButton() {
+  const cartLink = document.querySelector('.cart-link');
+  if (!cartLink) return;
+
+  cartLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    hideAllMainViews();
+    showCartView();
+  });
+}
+
 function setupAboutDialog() {
   const aboutLink   = document.querySelector('#aboutLink');
   const aboutDialog = document.querySelector('#aboutDialog');
@@ -762,6 +829,26 @@ function setupAboutDialog() {
       aboutDialog.close();
     }
   });
+}
+
+// Generic "add to cart" helper
+function addToCart(product, qty = 1) {
+  if (!product) return;
+
+  // find existing
+  const existing = cart.find(item => item.id === product.id);
+  if (existing) {
+    existing.qty += qty;
+  } else {
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      qty
+    });
+  }
+  renderCart();
+  showToast(`${qty} × ${product.name} added to cart`);
 }
 
 function setupCategoryView() {
@@ -887,6 +974,7 @@ function setupCategoryView() {
   if (homeLink) {
     homeLink.addEventListener('click', (e) => {
       e.preventDefault();
+      hideAllMainViews();
       showHomeView();
     });
   }
@@ -894,6 +982,7 @@ function setupCategoryView() {
   if (womenLink) {
     womenLink.addEventListener('click', (e) => {
       e.preventDefault();
+      hideAllMainViews();
       showGenderView('women');
     });
   }
@@ -901,10 +990,153 @@ function setupCategoryView() {
   if (menLink) {
     menLink.addEventListener('click', (e) => {
       e.preventDefault();
+      hideAllMainViews();
       showGenderView('men');
     });
   }
 
   // start in home view
   showHomeView();
+}
+
+function showSingleProduct(productId) {
+  if (!products || products.length === 0) return;
+
+  const product = products.find(p => String(p.id) === String(productId));
+  if (!product) return;
+
+  const heroSection = document.querySelector('.hero');
+  const homeIntro   = document.querySelector('#homeIntro');
+  const genderCategoriesSection = document.querySelector('#genderCategories');
+  const browseArticle = document.querySelector('#filter');
+  const singleArticle = document.querySelector('#singleproduct');
+
+  // Hide other views
+  if (heroSection) heroSection.classList.add('hidden');
+  if (homeIntro) homeIntro.classList.add('hidden');
+  if (genderCategoriesSection) genderCategoriesSection.classList.add('hidden');
+  if (browseArticle) browseArticle.classList.add('hidden');
+
+  // Show single product article
+  if (singleArticle) singleArticle.classList.remove('hidden');
+
+  renderSingleProduct(product);
+}
+
+function renderSingleProduct(product) {
+  // Breadcrumb: "Home > Women > Dresses > Product Name"
+  const breadcrumb = document.querySelector('#spBreadcrumb');
+  if (breadcrumb) {
+    const genderLabel =
+      product.gender === 'womens' ? "Women" :
+      product.gender === 'mens'   ? "Men"   :
+      product.gender || "";
+    breadcrumb.textContent =
+      `Home > ${genderLabel} > ${product.category} > ${product.name}`;
+  }
+
+  const titleEl = document.querySelector('#spTitle');
+  const priceEl = document.querySelector('#spPrice');
+  const descEl  = document.querySelector('#spDescription');
+  const matEl   = document.querySelector('#spMaterial');
+  const sizeRow = document.querySelector('#spSizes');
+  const colorRow = document.querySelector('#spColors');
+  const qtyInput = document.querySelector('#spQty');
+  const addBtn   = document.querySelector('#spAddToCart');
+
+  if (titleEl) titleEl.textContent = product.name;
+  if (priceEl) priceEl.textContent = `$${product.price.toFixed(2)}`;
+  if (descEl)  descEl.textContent  = product.description || 'No description available.';
+  if (matEl)   matEl.textContent   = product.material || '—';
+  if (qtyInput) qtyInput.value = 1;
+
+  // Sizes as pills
+  if (sizeRow) {
+    sizeRow.textContent = '';
+    (product.sizes || []).forEach(sz => {
+      const pill = document.createElement('button');
+      pill.type = 'button';
+      pill.className = 'size-pill';
+      pill.textContent = sz;
+      sizeRow.appendChild(pill);
+    });
+  }
+
+  // Color swatches
+  if (colorRow) {
+    colorRow.textContent = '';
+    (product.color || []).forEach(c => {
+      const swatch = document.createElement('div');
+      swatch.className = 'color-swatch';
+      swatch.style.backgroundColor = c.hex || '#e5e7eb';
+      swatch.title = c.name || '';
+      colorRow.appendChild(swatch);
+    });
+  }
+
+  // Add-to-cart for this product/quantity
+  if (addBtn && qtyInput) {
+    addBtn.onclick = () => {
+      const qty = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+      addToCart(product, qty);
+    };
+  }
+
+  renderSingleRelatedProducts(product);
+}
+
+function renderSingleRelatedProducts(product) {
+  const grid = document.querySelector('#spRelatedGrid');
+  if (!grid || !products) return;
+
+  grid.textContent = '';
+
+  const related = products
+    .filter(p =>
+      p.id !== product.id &&
+      p.gender === product.gender &&
+      p.category === product.category
+    )
+    .slice(0, 4); // up to 4
+
+  related.forEach(p => {
+    const card = document.createElement('article');
+    card.classList.add('product-card');
+
+    const imgPlaceholder = document.createElement('div');
+    imgPlaceholder.classList.add('placeholder-img');
+    imgPlaceholder.textContent = 'placeholder';
+
+    const title = document.createElement('div');
+    title.classList.add('title');
+    title.textContent = p.name;
+
+    const footer = document.createElement('div');
+    footer.classList.add('product-footer');
+
+    const price = document.createElement('span');
+    price.classList.add('price');
+    price.textContent = `$${p.price.toFixed(2)}`;
+
+    const addBtn = document.createElement('button');
+    addBtn.type = 'button';
+    addBtn.classList.add('btn-add-cart');
+    addBtn.textContent = '+';
+    addBtn.setAttribute('aria-label', `Add ${p.name} to cart`);
+
+    addBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      addToCart(p, 1);
+    });
+
+    footer.append(price, addBtn);
+    card.append(imgPlaceholder, title, footer);
+
+    // Clicking a related card navigates to that product detail
+    card.addEventListener('click', () => {
+      showSingleProduct(p.id);
+    });
+
+    grid.appendChild(card);
+  });
 }

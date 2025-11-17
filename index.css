@@ -481,6 +481,156 @@ header nav a {
   justify-content: center;
 }
 
+/* ===== Single Product View ===== */
+
+/* Simple breadcrumb: Home > Gender > Category > Product */
+.breadcrumb {
+  max-width: var(--page-max);
+  margin: 16px auto 8px;
+  padding: 0 var(--gutter);
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+/* Overall page wrapper */
+.product-page {
+  max-width: var(--page-max);
+  margin: 0 auto 40px;
+  padding: 0 var(--gutter) 40px;
+}
+
+/* Two-column layout: images left, details right */
+.product-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+/* Image placeholders */
+.product-image-main .placeholder,
+.product-image-thumbs .placeholder {
+  background: #f3f4f6;
+  border: 1px dashed #d1d5db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
+
+.product-image-main .placeholder {
+  height: 280px;
+}
+
+.product-image-thumbs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.product-image-thumbs .placeholder {
+  height: 120px;
+}
+
+/* Detail text */
+.product-details h1 {
+  margin: 0 0 8px;
+}
+
+.product-price {
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+.product-description {
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+
+.product-material {
+  margin: 0 0 16px;
+}
+
+.product-quantity {
+  margin: 0 0 16px;
+}
+
+.product-quantity input {
+  width: 80px;
+}
+
+/* Size pills under details */
+.size-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.size-pill {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  font-size: 0.85rem;
+}
+
+/* Color swatches row (bigger than sidebar ones) */
+.product-colors .color-swatch-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.product-colors .color-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+}
+
+/* Add-to-cart button on detail view */
+.btn-primary {
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid #6b7280;
+  background: #e5e7eb;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background: #d1d5db;
+}
+
+/* Related products section just reuses .browse-grid, .product-card */
+
+/* ===== Toast notification (reuse for cart + detail) ===== */
+.toast {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  background: rgba(31, 41, 55, 0.95);
+  color: #f9fafb;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Shopping Cart */
 
 /* PANEL + TABLE */
