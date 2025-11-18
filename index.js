@@ -9,6 +9,13 @@ const browseState = {
   sort: 'name'
 };
 
+const FEATURED_IMAGE_MAP = {
+  "Wool Coat": "/images/Wool Coat.jpg",
+  "Leather Moto Jacket": "/images/Leather Moto Jacket.jpg",
+  "Wool Blend Trench Coat": "/images/Wool Blend Trench Coat.jpg",
+  "Cashmere Robe": "/images/Cashmere Robe 2.jpg"
+};
+
 let toastTimer = null;
 
 // Toast notification
@@ -131,6 +138,7 @@ function loadProducts() {
       buildSizeFilters()
       buildColorFilters();          // dynamic COLORS accordion
       applyBrowseFilters();
+      buildFeaturedProducts();
     })
     .catch(err => {
       console.error("Error loading products JSON:", err);
@@ -1137,6 +1145,59 @@ function renderSingleRelatedProducts(product) {
       showSingleProduct(p.id);
     });
 
+    grid.appendChild(card);
+  });
+}
+
+function buildFeaturedProducts() {
+  const grid = document.querySelector('#featuredGrid');
+  if (!grid || !products || products.length === 0) return;
+
+  // Copy and sort by price descending
+  const sorted = [...products].sort((a, b) => b.price - a.price);
+
+  // Prefer products that we actually have images for
+  const topWithImages = sorted.filter(p => FEATURED_IMAGE_MAP[p.name]);
+  const topFour = (topWithImages.length >= 4 ? topWithImages : sorted).slice(0, 4);
+
+  grid.textContent = '';
+
+  topFour.forEach(p => {
+    const card = document.createElement('article');
+    card.className = 'featured-card';
+
+    // --- image at top ---
+    const imgWrap = document.createElement('div');
+    imgWrap.className = 'featured-img';
+
+    const img = document.createElement('img');
+    img.src = FEATURED_IMAGE_MAP[p.name] || 'images/placeholder.jpg';
+    img.alt = p.name;
+    img.loading = 'lazy';
+
+    imgWrap.appendChild(img);
+
+    // --- text content ---
+    const badge = document.createElement('div');
+    badge.className = 'featured-badge';
+    const genderLabel =
+      p.gender === 'womens' ? "Women's" :
+      p.gender === 'mens'   ? "Men's"   : '';
+    badge.textContent = `${genderLabel} ${p.category}`.trim();
+
+    const title = document.createElement('h3');
+    title.className = 'featured-title';
+    title.textContent = p.name;
+
+    const price = document.createElement('p');
+    price.className = 'featured-price';
+    price.textContent = `$${p.price.toFixed(2)}`;
+
+    const desc = document.createElement('p');
+    desc.className = 'featured-desc';
+    desc.textContent = p.description || '';
+
+    card.append(imgWrap, badge, title, price, desc);
     grid.appendChild(card);
   });
 }

@@ -58,7 +58,7 @@ body { font-family: "Roboto Condensed", sans-serif; margin: 0;}
 .site-header nav li + li::before{
   content:"|";
   color:white;
-  margin:0 10px;          /* equal space on both sides of the pipe */
+  margin:0 10px; /* equal space on both sides of the pipe */
 }
 
 header .logo {
@@ -902,6 +902,10 @@ footer.site-footer {
   color: var(--nepal-blue);
 }
 
+.home-featured-header h2 {
+  color: white;
+}
+
 .home-intro p {
   margin: 0;
 }
@@ -923,4 +927,108 @@ footer.site-footer {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ===== Featured Items on Home ===== */
+
+.home-featured {
+  max-width: var(--page-max);
+  margin: 24px auto 40px;
+  padding: 16px 20px 24px;
+  border-radius: 12px;
+
+  /* Nepal flag colors: red + blue gradient frame, white cards */
+  background: linear-gradient(135deg, #DC143C 0%, var(--nepal-blue) 100%);
+  color: #ffffff;
+}
+
+.home-featured-header {
+  border-radius: 10px;
+  padding: 12px 16px;
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  margin-bottom: 16px;
+}
+
+.home-featured-header h2 {
+  margin: 0 0 4px;
+  font-size: 1.3rem;
+}
+
+.home-featured-tagline {
+  margin: 0;
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+/* White cards sitting on the red/blue background */
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .featured-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .featured-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.featured-card {
+  background: #FFFFFF;           /* white for the flag */
+  color: #111827;
+  border-radius: 10px;
+  padding: 12px 12px 14px;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.16);
+  border: 2px solid var(--nepal-blue);
+  border-top: 8px solid #DC143C; /* red top bar */
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.featured-img {
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  background: #f3f4f6;
+}
+
+.featured-img img {
+  display: block;
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.featured-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--nepal-blue);
+}
+
+.featured-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.featured-price {
+  margin: 0;
+  font-weight: 700;
+  color: #DC143C; /* red price highlight */
+}
+
+.featured-desc {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: #4b5563;
 }
