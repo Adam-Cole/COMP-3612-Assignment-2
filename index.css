@@ -1029,7 +1029,7 @@ footer.site-footer {
 }
 
 .featured-card {
-  background: #FFFFFF;           /* white for the flag */
+  background: #FFFFFF;
   color: #111827;
   border-radius: 10px;
   padding: 12px 12px 14px;
@@ -1038,6 +1038,18 @@ footer.site-footer {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+.featured-card:hover,
+.featured-card:focus-visible {
+  background: #d1d5db;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.24);
+  transform: translateY(-2px);
 }
 
 .featured-img {

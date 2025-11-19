@@ -1166,6 +1166,10 @@ function buildFeaturedProducts() {
     const card = document.createElement('article');
     card.className = 'featured-card';
 
+    card.addEventListener('click', () => {
+      showSingleProduct(p.id);
+    });
+
     // --- image at top ---
     const imgWrap = document.createElement('div');
     imgWrap.className = 'featured-img';
