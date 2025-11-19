@@ -117,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadProducts();   // fetch data-pretty.json and build product cards
   setupAboutDialog();
   setupCategoryView();
+  setupCategoryClickToBrowse();
   setupBrowse();
   setupBrowseFilters();
   setupCartButton();
@@ -217,12 +218,12 @@ function buildSizeFilters() {
   });
 }
 
-function buildGenderCategoryCards() {
+function buildGenderCategoryCards(gender) {
   const gallery = document.querySelector('#genderCategoryGallery');
   if (!gallery) return;
 
-  // Only build once
-  if (gallery.children.length > 0) return;
+  // Always rebuild for the selected gender
+  gallery.textContent = '';
 
   const categories = [
     'All',
@@ -244,6 +245,7 @@ function buildGenderCategoryCards() {
     btn.type = 'button';
     btn.className = 'category-card';
     btn.dataset.category = cat;
+    btn.dataset.gender = gender;   // 👈 now gender will be set correctly
 
     const ph = document.createElement('div');
     ph.className = 'placeholder';
@@ -263,17 +265,19 @@ function buildColorFilters() {
   const container = document.querySelector('#colorFilter');
   if (!container || !products || products.length === 0) return;
 
-  // Collect unique colors from JSON
+  // Collect unique colors from products
   const seen = new Set();
   const colors = [];
 
   products.forEach(p => {
-    (p.color || []).forEach(c => {
-      if (!c || !c.name) return;
-      if (!seen.has(c.name)) {
-        seen.add(c.name);
-        colors.push(c);  // { name, hex }
-      }
+    const colorArray = p.color || p.colors || [];
+    colorArray.forEach(c => {
+      if (!c) return;
+      const name = typeof c === 'string' ? c : c.name;
+      const hex  = typeof c === 'string' ? '#ccc' : c.hex;
+      if (!name || seen.has(name)) return;
+      seen.add(name);
+      colors.push({ name, hex });
     });
   });
 
@@ -291,17 +295,16 @@ function buildColorFilters() {
     const input = document.createElement('input');
     input.type = 'checkbox';
     input.name = 'color';
-    input.value = c.name;
-    input.dataset.hex = c.hex;   // for swatches
     input.dataset.color = c.name;
+    input.dataset.hex   = c.hex;
 
     const text = document.createElement('span');
     text.textContent = c.name;
 
-    // tiny swatch but still “toggle-style”
     const swatch = document.createElement('span');
     swatch.className = 'color-swatch';
     swatch.style.backgroundColor = c.hex;
+
     label.append(input, swatch, text);
     container.appendChild(label);
   });
@@ -940,7 +943,8 @@ function setupCategoryView() {
     if (browseArticle) browseArticle.classList.add('hidden');
     if (genderCategoriesSection) {
       genderCategoriesSection.classList.remove('hidden');
-      buildGenderCategoryCards();
+      const gKey = gender === 'women' ? 'womens' : 'mens';
+      buildGenderCategoryCards(gKey);
     }
   }
 
@@ -1005,6 +1009,71 @@ function setupCategoryView() {
 
   // start in home view
   showHomeView();
+}
+
+function setupCategoryClickToBrowse() {
+  const gallery    = document.querySelector('#genderCategoryGallery');
+  const navBrowse  = document.querySelector('#navBrowse');      // correct id
+  const browseArticle = document.querySelector('#filter');
+
+  if (!gallery) return;
+
+  gallery.addEventListener('click', (e) => {
+    const card = e.target.closest('.category-card');
+    if (!card) return;
+
+    const gender   = card.dataset.gender;   // 'womens' or 'mens'
+    const category = card.dataset.category; // e.g. 'Tops'
+
+    // --- 1) Update filter state using browseFilters (not browseState) ---
+    browseFilters.genders.clear();
+    browseFilters.categories.clear();
+
+    if (gender && gender !== 'All') {
+      browseFilters.genders.add(gender);
+    }
+    if (category && category !== 'All') {
+      browseFilters.categories.add(category);
+    }
+
+    // Optional: sync sidebar pill UI so it matches filters
+    const sidebar = document.querySelector('.browse-filters');
+    if (sidebar) {
+      // gender pills
+      sidebar.querySelectorAll('.filter-pill[data-gender]').forEach(pill => {
+        const g = pill.dataset.gender;
+        pill.classList.toggle('active', browseFilters.genders.has(g));
+      });
+
+      // category pills
+      const allPill = sidebar.querySelector('.filter-pill[data-category="All"]');
+      sidebar.querySelectorAll('.filter-pill[data-category]').forEach(pill => {
+        const c = pill.dataset.category;
+        const isActive =
+          browseFilters.categories.size === 0
+            ? c === 'All'
+            : browseFilters.categories.has(c);
+        pill.classList.toggle('active', isActive);
+      });
+    }
+
+    // --- 2) Switch to the Browse view ---
+    if (navBrowse) {
+      // reuse existing navBrowse click handler
+      navBrowse.click();
+    } else {
+      // fallback: manual show / hide
+      if (typeof hideAllMainViews === 'function') {
+        hideAllMainViews();
+      }
+      if (browseArticle) {
+        browseArticle.classList.remove('hidden');
+      }
+      if (typeof applyBrowseFilters === 'function') {
+        applyBrowseFilters();
+      }
+    }
+  });
 }
 
 function showSingleProduct(productId) {
