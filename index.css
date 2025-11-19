@@ -94,7 +94,7 @@ header .logo {
 
 .hero-text {
   max-width: 700px;                     /* a bit wider */
-  background: rgba(0, 0, 0, 0.7);       /* darker overlay = more contrast */
+  background: transparent;       /* darker overlay = more contrast */
   color: #fff;
   padding: 18px 26px;
   border-radius: 8px;
@@ -931,15 +931,63 @@ footer.site-footer {
 
 /* ===== Featured Items on Home ===== */
 
+/* make the angle animatable */
+@property --angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes rotate-border {
+  to {
+    --angle: 1080deg;
+  }
+}
+
+/* Outer shell: conic-gradient border */
 .home-featured {
+  --angle: 180deg;  /* starting angle */
+
   max-width: var(--page-max);
   margin: 24px auto 40px;
-  padding: 16px 20px 24px;
-  border-radius: 12px;
+  padding: 10px;
+  border-radius: 16px;
 
-  /* Nepal flag colors: red + blue gradient frame, white cards */
-  background: linear-gradient(135deg, #DC143C 0%, var(--nepal-blue) 100%);
-  color: #ffffff;
+  position: relative;
+  isolation: isolate;
+
+  background: conic-gradient(
+    from var(--angle),
+    #ff6b6b,
+    #ffd93d,
+    #6fffe9,
+    #7b61ff,
+    #ff6b6b
+  );
+
+  animation: rotate-border 10s linear infinite;
+}
+
+.home-featured::before {
+  content: "";
+  position: absolute;
+  inset: -6px;                  /* slightly bigger than the box */
+  border-radius: inherit;
+  z-index: -1;                   /* sit behind the main section */
+
+  background: conic-gradient(
+    from var(--angle),
+    #ff6b6b,
+    #ffd93d,
+    #6fffe9,
+    #7b61ff,
+    #ff6b6b
+  );
+
+  filter: blur(14px);            /* 👈 controls how soft/wide the glow is */
+  opacity: 0.9;                  /* adjust if you want a softer glow */
+  pointer-events: none;
+  animation: rotate-border 10s linear infinite; /* keep it in sync */
 }
 
 .home-featured-header {
@@ -987,7 +1035,6 @@ footer.site-footer {
   padding: 12px 12px 14px;
   box-shadow: 0 4px 10px rgba(15, 23, 42, 0.16);
   border: 2px solid var(--nepal-blue);
-  border-top: 8px solid #DC143C; /* red top bar */
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -1031,4 +1078,15 @@ footer.site-footer {
   margin: 4px 0 0;
   font-size: 0.85rem;
   color: #4b5563;
+}
+
+/* Inner content box */
+.home-featured-inner {
+  border-radius: inherit;
+  padding: 16px 20px 24px;
+  background: linear-gradient(
+    rgba(0,0,0,0.5),
+    rgba(0,0,0,0.5)
+  );
+  color: #ffffff;
 }
