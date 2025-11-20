@@ -16,6 +16,13 @@ const FEATURED_IMAGE_MAP = {
   "Cashmere Robe": "/images/Cashmere Robe 2.jpg"
 };
 
+// Shipping pricing rules
+const SHIPPING_RATES = {
+  standard: { CA: 10, US: 15, INT: 20 },
+  express:  { CA: 25, US: 25, INT: 30 },
+  priority: { CA: 35, US: 50, INT: 50 }
+};
+
 let toastTimer = null;
 
 // Toast notification
@@ -88,21 +95,68 @@ function renderCart() {
     const row = template.content.firstElementChild.cloneNode(true);
     row.dataset.itemId = item.id;
 
+    // DELETE item feature
+    const removeBtn = row.querySelector('.remove-icon');
+    if (removeBtn) {
+      removeBtn.addEventListener('click', () => {
+        cart = cart.filter(c => c.id !== item.id);
+        renderCart();
+      });
+    }
+
     row.querySelector('.title').textContent = item.name;
     row.querySelector('.price').textContent = `$${item.price.toFixed(2)}`;
     row.querySelector('.qty input').value   = item.qty;
     row.querySelector('.subtotal').textContent =
       `$${(item.price * item.qty).toFixed(2)}`;
 
+    // --- QUANTITY CHANGE LISTENERS ---
+    const minus = row.querySelector('.qty button:first-child');
+    const plus  = row.querySelector('.qty button:last-child');
+    const qtyInput = row.querySelector('.qty input');
+
+    minus.addEventListener('click', () => {
+      item.qty = Math.max(1, item.qty - 1);
+      renderCart();
+    });
+
+    plus.addEventListener('click', () => {
+      item.qty++;
+      renderCart();
+    });
+
+    qtyInput.addEventListener('change', () => {
+      let v = parseInt(qtyInput.value);
+      item.qty = isNaN(v) || v < 1 ? 1 : v;
+      renderCart();
+    });
+
     itemsContainer.appendChild(row);
   });
 
   cartBadge.textContent = itemCount;
   sumMerch.textContent  = `$${merchTotal.toFixed(2)}`;
-  // simple example: shipping/tax 0 for now
-  sumShip.textContent   = '$0.00';
-  sumTax.textContent    = '$0.00';
-  sumTotal.textContent  = `$${merchTotal.toFixed(2)}`;
+
+  // --- SHIPPING & TAX ---
+  let shipCost = 0;
+  const method = shipMethod.value;
+  const dest   = shipDest.value;
+
+  // Free shipping if merchandise > $500
+  if (merchTotal > 500) {
+    shipCost = 0;
+  } else {
+    shipCost = SHIPPING_RATES[method][dest];
+  }
+
+  let tax = 0;
+  if (dest === "CA") tax = merchTotal * 0.05;
+
+  const grandTotal = merchTotal + shipCost + tax;
+
+  sumShip.textContent  = `$${shipCost.toFixed(2)}`;
+  sumTax.textContent   = `$${tax.toFixed(2)}`;
+  sumTotal.textContent = `$${grandTotal.toFixed(2)}`;
 
   shipBlock.classList.remove('disabled');
   shipMethod.disabled = false;
@@ -121,6 +175,27 @@ document.addEventListener('DOMContentLoaded', () => {
   setupBrowse();
   setupBrowseFilters();
   setupCartButton();
+
+  // --- SHIPPING OPTION CHANGE LISTENERS ---
+  document.querySelector('#shipMethod').addEventListener('change', renderCart);
+  document.querySelector('#shipDest').addEventListener('change', renderCart);
+
+  // --- CHECKOUT BUTTON BEHAVIOR ---
+  document.querySelector('#checkoutBtn').addEventListener('click', () => {
+    if (cart.length === 0) return;
+
+    showToast("Your order has been placed!");
+
+    cart = [];          // clear shopping cart
+    renderCart();       // update UI
+    hideAllMainViews(); // hide all views
+
+    // go back to home view
+    document.querySelector('#home').classList.remove('hidden');
+    document.querySelector('.hero').classList.remove('hidden');
+    document.querySelector('#homeIntro')?.classList.remove('hidden');
+    document.querySelector('#homeFeatured')?.classList.remove('hidden');
+  });
 });
 
 function loadProducts() {
