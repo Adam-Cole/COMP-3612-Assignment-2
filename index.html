@@ -260,8 +260,8 @@
                 <div></div>
                 <div class="cart-head">
                     <div></div>
-                    <div class="muted">Items</div>
                     <div class="muted"></div>
+                    <div class="muted">Items</div>
                     <div class="muted">Color</div>
                     <div class="muted">Size</div>
                     <div class="muted">Price</div>
@@ -278,12 +278,10 @@
                 <!-- Example row (hidden template for JS to clone later) -->
                 <template id="itemTemplate">
                     <div class="cart-row" data-item-id="">
-                        <!-- col 1: select -->
-                        <div class="sel">
-                        <input type="checkbox" class="row-check" aria-label="Select item">
-                        </div>
-
-                         <!-- col 2: image -->
+                        <!-- col 1: REMOVE BUTTON (ADD THIS) -->
+                        <div class="remove-icon" aria-label="Remove from cart">-</div>
+                        
+                        <!-- col 2: image -->
                         <div class="thumb">img</div>
 
                         <!-- col 3: title -->
@@ -301,7 +299,7 @@
                         <!-- col 7: qty -->
                         <div>
                         <div class="qty">
-                            <button type="button" aria-label="Decrease quantity">–</button>
+                            <button type="button" aria-label="Decrease quantity">-</button>
                             <input type="text" inputmode="numeric" value="2" aria-label="Quantity" />
                             <button type="button" aria-label="Increase quantity">+</button>
                         </div>
@@ -313,9 +311,7 @@
                     </template>
                 </div>
             </div>
-
-            <button type="button" id="removeSelected" class="remove">Remove selected</button>
-
+            
             <!-- Right: Shipping + Summary -->
             <div class="side">
                 <div class="card">

@@ -638,33 +638,14 @@ header nav a {
 /* Items grid: [select][image][title][color][size][price][qty][subtotal] */
 .cart-head,.cart-row{
   display:grid;
-  grid-template-columns: 40px 96px 1fr 70px 70px 100px 120px 110px;
+  grid-template-columns: repeat(8, 1fr);
   align-items:center;
+  text-align: center;
   gap:12px;
-  padding:12px 16px;
+  padding: 14px 16px;
+  padding-right: 10%;
 }
 
-/* square checkbox */
-.sel input[type="checkbox"]{
-  appearance:none;
-  width:18px;height:18px;
-  border:1px solid #94a3b8;
-  border-radius:4px;
-  background:#fff;
-  display:inline-block;
-  position:relative;
-  cursor:pointer;
-}
-.sel input[type="checkbox"]:checked{
-  background:#285ea8;
-  border-color:#285ea8;
-}
-.sel input[type="checkbox"]:checked::after{
-  content:"";
-  position:absolute; inset:3px 5px 5px 3px;      /* draw a ✓ shape */
-  border:2px solid #fff; border-top:0; border-left:0;
-  transform:rotate(45deg);
-}
 .cart-head{
   font-weight:700; color:#334155; border-bottom:1px solid #e2e8f0;
 }
@@ -677,7 +658,7 @@ header nav a {
 }
 .title{ font-weight:700 }
 .num{ font-variant-numeric:tabular-nums; }
-.price,.subtotal{ justify-self:end; }
+
 .qty{ display:inline-flex; border:1px solid #e5e7eb; overflow:hidden }
 .qty button{ all:unset; width:32px; height:32px; display:grid; place-items:center; background:#f3f4f6; cursor:pointer }
 .qty input{ width:42px; text-align:center; border:0; outline:0 }
