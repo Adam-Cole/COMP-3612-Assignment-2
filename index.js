@@ -193,6 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // go back to home view
     document.querySelector('#home').classList.remove('hidden');
     document.querySelector('.hero').classList.remove('hidden');
+    document.querySelector('#homeIntro')?.classList.remove('hidden');
+    document.querySelector('#homeFeatured')?.classList.remove('hidden');
   });
 });
 
