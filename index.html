@@ -11,10 +11,10 @@
     <section class="full-bleed">
         <header class="site-header">
         <!-- top bar: logo + nav + cart -->
-          <div class="logo">
+          <a href="#" id="homeLogo" class="logo">
             <img src="/images/Nepal National Flag.png" alt="Lugā logo">
             <span>लुगा (Lugā)</span>
-          </div>
+          </a>
 
           <nav>
             <ul>
@@ -187,8 +187,8 @@
                     <!-- JS will insert product cards here -->
                     </section>
                 </section>
-              </section>
-            </article>
+            </section>
+        </article>
 
         <article id="singleproduct" class="hidden">
             <!-- Breadcrumb -->
@@ -347,9 +347,14 @@
                         <div class="row"><span>Shipping</span><span class="num" id="sumShip">$0.00</span></div>
                         <div class="row"><span>Tax</span><span class="num" id="sumTax">$0.00</span></div>
                         <div class="row total"><span>Total</span><span class="num" id="sumTotal">$0.00</span></div>
-                        <div id="checkoutButton"style="margin-top:14px">
+                        <div class="cart-actions" style="margin-top:14px">
                             <!-- Add .ready when cart has items to enable -->
-                            <button class="checkout" id="checkoutBtn" type="button" disabled>Checkout</button>
+                             <button id="continueBtn" class="continue-shopping" type="button">
+                                ← Continue Shopping
+                            </button>
+                            <button class="checkout" id="checkoutBtn" type="button" disabled>
+                                Checkout
+                            </button>
                         </div>
                     </div>
                 </div>

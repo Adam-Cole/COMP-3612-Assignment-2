@@ -214,6 +214,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#homeIntro')?.classList.remove('hidden');
     document.querySelector('#homeFeatured')?.classList.remove('hidden');
   });
+
+  // --- CONTINUE SHOPPING BUTTON ---
+  document.querySelector('#continueBtn').addEventListener('click', () => {
+    // DO NOT clear the cart
+    hideAllMainViews();
+
+    // Show the Browse page instead of Home
+    document.querySelector('#filter').classList.remove('hidden');
+    });
 });
 
 function loadProducts() {
@@ -973,6 +982,15 @@ function setupCategoryView() {
   const browseArticle = document.querySelector('#filter'); // Browse view article
 
   if (!heroCopy || !heroLabel) return;
+
+  // CLICKING LOGO → ALWAYS GO HOME
+  document.querySelector('#homeLogo').addEventListener('click', (e) => {
+    e.preventDefault();
+    hideAllMainViews();
+
+    // Show home again
+    showHomeView();
+  });
 
   // Show only WOMEN/MEN categories (3x4) under hero
   function showGenderView(gender) {
