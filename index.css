@@ -611,6 +611,13 @@ header nav a {
   border: 1px solid #d1d5db;
   background: #f9fafb;
   font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.size-pill.is-selected {
+  background: #e5e7eb;
+  border-color: #6b7280;
+  font-weight: 600;
 }
 
 /* Color swatches row (bigger than sidebar ones) */
@@ -626,6 +633,12 @@ header nav a {
   width: 24px;
   height: 24px;
   border-radius: 4px;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.product-colors .color-swatch.is-selected {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--nepal-blue);
 }
 
 /* Add-to-cart button on detail view */

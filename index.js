@@ -1242,27 +1242,80 @@ function renderSingleProduct(product) {
 
   // Sizes as pills
   if (sizeRow) {
-    sizeRow.textContent = '';
-    (product.sizes || []).forEach(sz => {
-      const pill = document.createElement('button');
-      pill.type = 'button';
-      pill.className = 'size-pill';
-      pill.textContent = sz;
-      sizeRow.appendChild(pill);
+  sizeRow.textContent = '';
+  sizeRow.dataset.selectedSize = '';
+
+  (product.sizes || []).forEach((sz) => {
+    const pill = document.createElement('button');
+    pill.type = 'button';
+    pill.className = 'size-pill';
+    pill.textContent = sz;
+    pill.dataset.size = sz;
+
+    pill.addEventListener('click', () => {
+      // Clear previous selection
+      sizeRow.querySelectorAll('.size-pill').forEach(btn => {
+        btn.classList.remove('is-selected');
+      });
+
+      // Mark this one as selected
+      pill.classList.add('is-selected');
+      sizeRow.dataset.selectedSize = sz;
     });
+
+    sizeRow.appendChild(pill);
+  });
+
+  // If there's only one size, auto-select it
+  if ((product.sizes || []).length === 1) {
+    const onlyPill = sizeRow.querySelector('.size-pill');
+    if (onlyPill) {
+      onlyPill.classList.add('is-selected');
+      sizeRow.dataset.selectedSize = product.sizes[0];
+    }
   }
+}
 
   // Color swatches
   if (colorRow) {
-    colorRow.textContent = '';
-    (product.color || []).forEach(c => {
-      const swatch = document.createElement('div');
-      swatch.className = 'color-swatch';
-      swatch.style.backgroundColor = c.hex || '#e5e7eb';
-      swatch.title = c.name || '';
-      colorRow.appendChild(swatch);
+  colorRow.textContent = '';
+  colorRow.dataset.selectedColorName = '';
+  colorRow.dataset.selectedColorHex = '';
+
+  (product.color || []).forEach((c) => {
+    const swatch = document.createElement('div');
+    swatch.className = 'color-swatch';
+    swatch.style.backgroundColor = c.hex || '#e5e7eb';
+    swatch.title = c.name || '';
+    swatch.dataset.colorName = c.name || '';
+    swatch.dataset.colorHex = c.hex || '';
+
+    swatch.addEventListener('click', () => {
+      // Clear previous selection
+      colorRow.querySelectorAll('.color-swatch').forEach(el => {
+        el.classList.remove('is-selected');
+      });
+
+      // Mark this one as selected
+      swatch.classList.add('is-selected');
+      colorRow.dataset.selectedColorName = swatch.dataset.colorName;
+      colorRow.dataset.selectedColorHex = swatch.dataset.colorHex;
     });
+
+    colorRow.appendChild(swatch);
+  });
+
+  // If there's only one color, auto-select it
+  if ((product.color || []).length === 1) {
+    const onlySwatch = colorRow.querySelector('.color-swatch');
+    if (onlySwatch) {
+      onlySwatch.classList.add('is-selected');
+      const first = product.color[0];
+      colorRow.dataset.selectedColorName = first?.name || '';
+      colorRow.dataset.selectedColorHex  = first?.hex  || '';
+    }
   }
+}
 
   // Add-to-cart for this product/quantity
   if (addBtn && qtyInput) {
