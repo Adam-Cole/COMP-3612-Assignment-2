@@ -41,6 +41,10 @@ function showToast(message) {
   }, 2000);
 }
 
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
 function renderCart() {
   const cartSection   = document.querySelector('.cart');
   const itemsContainer = document.querySelector('#cartItems');
@@ -100,6 +104,7 @@ function renderCart() {
     if (removeBtn) {
       removeBtn.addEventListener('click', () => {
         cart = cart.filter(c => c.id !== item.id);
+        saveCart();
         renderCart();
       });
     }
@@ -117,17 +122,20 @@ function renderCart() {
 
     minus.addEventListener('click', () => {
       item.qty = Math.max(1, item.qty - 1);
+      saveCart();
       renderCart();
     });
 
     plus.addEventListener('click', () => {
       item.qty++;
+      saveCart();
       renderCart();
     });
 
     qtyInput.addEventListener('change', () => {
       let v = parseInt(qtyInput.value);
       item.qty = isNaN(v) || v < 1 ? 1 : v;
+      saveCart();
       renderCart();
     });
 
@@ -167,6 +175,16 @@ function renderCart() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  // LOAD CART FROM STORAGE
+  const stored = localStorage.getItem("cart");
+  if (stored) {
+    try {
+      cart = JSON.parse(stored);
+    } catch (e) {
+      cart = [];
+    }
+  }
+  
   renderCart();     // set up the empty cart
   loadProducts();   // fetch data-pretty.json and build product cards
   setupAboutDialog();
@@ -933,6 +951,8 @@ function addToCart(product, qty = 1) {
       qty
     });
   }
+
+  saveCart();
   renderCart();
   showToast(`${qty} × ${product.name} added to cart`);
 }

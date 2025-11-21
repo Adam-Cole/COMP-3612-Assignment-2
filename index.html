@@ -255,104 +255,104 @@
             <h1>Shopping Cart</h1>
 
             <section class="cart" data-state="empty">
-            <!-- Left: Items -->
-            <div class="panel">
-                <div></div>
-                <div class="cart-head">
+                <!-- Left: Items -->
+                <div class="panel">
                     <div></div>
-                    <div class="muted"></div>
-                    <div class="muted">Items</div>
-                    <div class="muted">Color</div>
-                    <div class="muted">Size</div>
-                    <div class="muted">Price</div>
-                    <div class="muted">Quantity</div>
-                    <div class="muted">Subtotal</div>
-                </div>
-
-                <div class="cart-items" id="cartItems">
-                <!-- Empty state (shown by default) -->
-                <div class="empty" id="emptyMsg">
-                    Your cart is empty. Add products to see them here.
-                </div>
-
-                <!-- Example row (hidden template for JS to clone later) -->
-                <template id="itemTemplate">
-                    <div class="cart-row" data-item-id="">
-                        <!-- col 1: REMOVE BUTTON (ADD THIS) -->
-                        <div class="remove-icon" aria-label="Remove from cart">-</div>
-                        
-                        <!-- col 2: image -->
-                        <div class="thumb">img</div>
-
-                        <!-- col 3: title -->
-                        <div><div class="title">Product Title</div></div>
-
-                        <!-- col 4: color -->
-                        <div class="color-cell"><span class="swatch" style="background:#1e3a8a"></span></div>
-
-                        <!-- col 5: size -->
-                        <div class="size-cell">XS</div>
-
-                        <!-- col 6: price -->
-                        <div class="num price">$80.00</div>
-
-                        <!-- col 7: qty -->
-                        <div>
-                        <div class="qty">
-                            <button type="button" aria-label="Decrease quantity">-</button>
-                            <input type="text" inputmode="numeric" value="2" aria-label="Quantity" />
-                            <button type="button" aria-label="Increase quantity">+</button>
-                        </div>
-                        </div>
-
-                        <!-- col 8: subtotal -->
-                        <div class="num subtotal">$160.00</div>
+                    <div class="cart-head">
+                        <div></div>
+                        <div class="muted"></div>
+                        <div class="muted">Items</div>
+                        <div class="muted">Color</div>
+                        <div class="muted">Size</div>
+                        <div class="muted">Price</div>
+                        <div class="muted">Quantity</div>
+                        <div class="muted">Subtotal</div>
                     </div>
-                    </template>
-                </div>
-            </div>
-            
-            <!-- Right: Shipping + Summary -->
-            <div class="side">
-                <div class="card">
-                <h2>Shipping</h2>
-                <!-- Keep disabled until cart has items -->
-                <div class="stack disabled" id="shipBlock">
-                    <label class="field">
-                    <span class="muted">Method</span>
-                    <span class="select">
-                        <select id="shipMethod" disabled>
-                        <option value="standard">Standard</option>
-                        <option value="express">Express</option>
-                        <option value="priority">Priority</option>
-                        </select>
-                    </span>
-                    </label>
-                    <label class="field">
-                    <span class="muted">Destination</span>
-                    <span class="select">
-                        <select id="shipDest" disabled>
-                        <option value="CA">Canada</option>
-                        <option value="US">United States</option>
-                        <option value="INT">International</option>
-                        </select>
-                    </span>
-                    </label>
-                </div>
-                </div>
 
-                <div class="card summary" aria-live="polite">
-                <h2>Summary</h2>
-                <div class="row"><span>Merchandise</span><span class="num" id="sumMerch">$0.00</span></div>
-                <div class="row"><span>Shipping</span><span class="num" id="sumShip">$0.00</span></div>
-                <div class="row"><span>Tax</span><span class="num" id="sumTax">$0.00</span></div>
-                <div class="row total"><span>Total</span><span class="num" id="sumTotal">$0.00</span></div>
-                <div style="margin-top:14px">
-                    <!-- Add .ready when cart has items to enable -->
-                    <button class="checkout" id="checkoutBtn" type="button" disabled>Checkout</button>
+                    <div class="cart-items" id="cartItems">
+                    <!-- Empty state (shown by default) -->
+                    <div class="empty" id="emptyMsg">
+                        Your cart is empty. Add products to see them here.
+                    </div>
+
+                    <!-- Example row (hidden template for JS to clone later) -->
+                    <template id="itemTemplate">
+                        <div class="cart-row" data-item-id="">
+                            <!-- col 1: REMOVE BUTTON (ADD THIS) -->
+                            <div class="remove-icon" aria-label="Remove from cart">-</div>
+                            
+                            <!-- col 2: image -->
+                            <div class="thumb">img</div>
+
+                            <!-- col 3: title -->
+                            <div><div class="title">Product Title</div></div>
+
+                            <!-- col 4: color -->
+                            <div class="color-cell"><span class="swatch" style="background:#1e3a8a"></span></div>
+
+                            <!-- col 5: size -->
+                            <div class="size-cell">XS</div>
+
+                            <!-- col 6: price -->
+                            <div class="num price">$80.00</div>
+
+                            <!-- col 7: qty -->
+                            <div>
+                            <div class="qty">
+                                <button type="button" aria-label="Decrease quantity">-</button>
+                                <input type="text" inputmode="numeric" value="2" aria-label="Quantity" />
+                                <button type="button" aria-label="Increase quantity">+</button>
+                            </div>
+                            </div>
+
+                            <!-- col 8: subtotal -->
+                            <div class="num subtotal">$160.00</div>
+                        </div>
+                        </template>
+                    </div>
                 </div>
+                
+                <!-- Right: Shipping + Summary -->
+                <div class="side">
+                    <div class="card">
+                        <h2>Shipping</h2>
+                        <!-- Keep disabled until cart has items -->
+                        <div class="stack disabled" id="shipBlock">
+                            <label class="field">
+                            <span class="muted">Method</span>
+                            <span class="select">
+                                <select id="shipMethod" disabled>
+                                <option value="standard">Standard</option>
+                                <option value="express">Express</option>
+                                <option value="priority">Priority</option>
+                                </select>
+                            </span>
+                            </label>
+                            <label class="field">
+                            <span class="muted">Destination</span>
+                            <span class="select">
+                                <select id="shipDest" disabled>
+                                <option value="CA">Canada</option>
+                                <option value="US">United States</option>
+                                <option value="INT">International</option>
+                                </select>
+                            </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="card summary" aria-live="polite">
+                        <h2>Summary</h2>
+                        <div class="row"><span>Merchandise</span><span class="num" id="sumMerch">$0.00</span></div>
+                        <div class="row"><span>Shipping</span><span class="num" id="sumShip">$0.00</span></div>
+                        <div class="row"><span>Tax</span><span class="num" id="sumTax">$0.00</span></div>
+                        <div class="row total"><span>Total</span><span class="num" id="sumTotal">$0.00</span></div>
+                        <div id="checkoutButton"style="margin-top:14px">
+                            <!-- Add .ready when cart has items to enable -->
+                            <button class="checkout" id="checkoutBtn" type="button" disabled>Checkout</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
             </section>
         </div>
 

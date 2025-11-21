@@ -709,10 +709,26 @@ header nav a {
 .empty{ padding:28px 20px; text-align:center; color:#64748b }
 
 /* Right column layout */
-.side{ display:grid; gap:18px }
+.side{ display:grid; 
+  grid-template-columns: 1fr 3fr; /* two equal columns */
+  gap:18px }
+
+#shipBlock{ grid-column:1 / -1; } /* full width */
+
+.card.summary {
+    display: flex;
+    flex-direction: column;
+}
+
+.card.summary > div:last-child {
+    display: flex;
+    justify-content: center;   /* center horizontally */
+    margin-top: 16px;
+}
+
 
 /* --- Shipping card --- */
-.card{ background:#fff; border:1px solid #e5e7eb; padding:16px }
+.card{ background:#fff; padding:16px }
 .card h2{ margin:0 0 10px; font-size:18px }
 
 .stack{ display:grid; gap:10px }
