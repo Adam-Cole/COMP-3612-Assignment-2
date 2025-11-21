@@ -1002,7 +1002,7 @@ footer.site-footer {
   --angle: 180deg;  /* starting angle */
 
   max-width: var(--page-max);
-  margin: 24px auto 40px;
+  margin: 4.5rem auto 4.5rem;
   padding: 10px;
   border-radius: 16px;
 
@@ -1053,7 +1053,7 @@ footer.site-footer {
 
 .home-featured-header h2 {
   margin: 0 0 4px;
-  font-size: 1.3rem;
+  font-size: 2rem;
 }
 
 .home-featured-tagline {
@@ -1079,6 +1079,12 @@ footer.site-footer {
   .featured-grid {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+.lux-tagline {
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-top: 0.5rem;
 }
 
 .featured-card {
