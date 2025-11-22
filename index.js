@@ -1539,13 +1539,50 @@ function renderSingleRelatedProducts(product) {
 
   grid.textContent = '';
 
-  const related = products
+  const basePrice = product.price;
+  const lower = basePrice * 0.8;  // -20%
+  const upper = basePrice * 1.2;  // +20%
+
+  // 1. First pass: same gender + category + within ±20% price
+  const primary = products
     .filter(p =>
       p.id !== product.id &&
       p.gender === product.gender &&
-      p.category === product.category
+      p.category === product.category &&
+      typeof p.price === 'number' &&
+      p.price >= lower &&
+      p.price <= upper
     )
-    .slice(0, 4); // up to 4
+
+  let related = [...primary];
+
+  // 2. Fallback: if fewer than 4, fill with same gender+price filter (no category restriction)
+  if (related.length < 4) {
+    const secondary = products.filter(p =>
+      p.id !== product.id &&
+      p.gender === product.gender &&
+      typeof p.price === 'number' &&
+      p.price >= lower &&
+      p.price <= upper &&
+      !related.includes(p) // avoid duplicates
+    );
+
+    related = related.concat(secondary);
+  }
+
+  // 3. Fallback: if still fewer than 4, fill with same gender only (no price/category restriction)
+  if (related.length < 4) {
+    const tertiary = products.filter(p =>
+      p.id !== product.id &&
+      p.gender === product.gender &&
+      !related.includes(p)
+    );
+
+    related = related.concat(tertiary);
+  }
+
+  // 4. Cap at 4 items
+  related = related.slice(0, 4); // up to 4
 
   related.forEach(p => {
     const card = document.createElement('article');
