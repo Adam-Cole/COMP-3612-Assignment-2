@@ -2,6 +2,8 @@
 let cart = [];
 // Global products array
 let products = [];
+// Drawer state for quick-add options
+let optionDrawerProduct = null;
 // browsing state
 const browseState = {
   gender: null,         // 'womens' | 'mens' | null
@@ -211,6 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupBrowse();
   setupBrowseFilters();
   setupCartButton();
+  setupOptionDrawer();
 
   // --- SHIPPING OPTION CHANGE LISTENERS ---
   document.querySelector('#shipMethod').addEventListener('change', renderCart);
@@ -614,6 +617,85 @@ function applyBrowseFilters() {
   renderBrowseTags();
 }
 
+function openOptionDrawer(product) {
+  optionDrawerProduct = product;
+
+  const overlay   = document.querySelector('#optionDrawerOverlay');
+  const nameEl    = document.querySelector('#optionDrawerProductName');
+  const sizeGroup = document.querySelector('#optionDrawerSizeGroup');
+  const colorGroup= document.querySelector('#optionDrawerColorGroup');
+  const sizeRow   = document.querySelector('#optionDrawerSizes');
+  const colorRow  = document.querySelector('#optionDrawerColors');
+
+  if (!overlay || !nameEl || !sizeRow || !colorRow) return;
+
+  nameEl.textContent = product.name || '';
+
+  const sizes = product.sizes || [];
+  const colors = product.color || [];
+
+  // Show / hide groups depending on data
+  sizeGroup.style.display  = sizes.length ? 'block' : 'none';
+  colorGroup.style.display = colors.length ? 'block' : 'none';
+
+  // Build size pills
+  sizeRow.textContent = '';
+  sizes.forEach((sz, index) => {
+    const pill = document.createElement('button');
+    pill.type = 'button';
+    pill.className = 'size-pill';
+    pill.textContent = sz;
+    pill.dataset.size = sz;
+
+    pill.addEventListener('click', () => {
+      sizeRow.querySelectorAll('.size-pill').forEach(btn =>
+        btn.classList.remove('is-selected')
+      );
+      pill.classList.add('is-selected');
+    });
+
+    // auto-select the first size
+    if (index === 0) {
+      pill.classList.add('is-selected');
+    }
+
+    sizeRow.appendChild(pill);
+  });
+
+  // Build color swatches
+  colorRow.textContent = '';
+  colors.forEach((c, index) => {
+    const swatch = document.createElement('div');
+    swatch.className = 'color-swatch';
+    swatch.style.backgroundColor = c.hex || '#e5e7eb';
+    swatch.title = c.name || '';
+    swatch.dataset.colorName = c.name || '';
+    swatch.dataset.colorHex  = c.hex || '';
+
+    swatch.addEventListener('click', () => {
+      colorRow.querySelectorAll('.color-swatch').forEach(el =>
+        el.classList.remove('is-selected')
+      );
+      swatch.classList.add('is-selected');
+    });
+
+    // auto-select the first color
+    if (index === 0) {
+      swatch.classList.add('is-selected');
+    }
+
+    colorRow.appendChild(swatch);
+  });
+
+  overlay.classList.remove('hidden');
+}
+
+function closeOptionDrawer() {
+  const overlay = document.querySelector('#optionDrawerOverlay');
+  if (overlay) overlay.classList.add('hidden');
+  optionDrawerProduct = null;
+}
+
 function setupBrowse() {
   const navBrowse = document.querySelector('#navBrowse');
   const navHome   = document.querySelector('#navHome');
@@ -699,6 +781,53 @@ function setupBrowse() {
   }
 }
 
+function setupOptionDrawer() {
+  const overlay   = document.querySelector('#optionDrawerOverlay');
+  const closeBtn  = document.querySelector('#optionDrawerClose');
+  const addBtn    = document.querySelector('#optionDrawerAddBtn');
+  const sizeRow   = document.querySelector('#optionDrawerSizes');
+  const colorRow  = document.querySelector('#optionDrawerColors');
+
+  if (!overlay || !closeBtn || !addBtn) return;
+
+  // Close on X or backdrop click
+  closeBtn.addEventListener('click', closeOptionDrawer);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+      closeOptionDrawer();
+    }
+  });
+
+  // Confirm selection -> add to cart
+  addBtn.addEventListener('click', () => {
+    if (!optionDrawerProduct) return;
+
+    let selectedSize = '';
+    let selectedColorName = '';
+    let selectedColorHex  = '';
+
+    const selectedPill = sizeRow?.querySelector('.size-pill.is-selected');
+    if (selectedPill) {
+      selectedSize = selectedPill.dataset.size || '';
+    }
+
+    const selectedSwatch = colorRow?.querySelector('.color-swatch.is-selected');
+    if (selectedSwatch) {
+      selectedColorName = selectedSwatch.dataset.colorName || '';
+      selectedColorHex  = selectedSwatch.dataset.colorHex || '';
+    }
+
+    // Quantity is always 1 from browse grid
+    addToCart(optionDrawerProduct, 1, {
+      size: selectedSize,
+      colorName: selectedColorName,
+      colorHex: selectedColorHex
+    });
+
+    closeOptionDrawer();
+  });
+}
+
 function renderBrowseGrid(list) {
   const grid = document.querySelector('#browseGrid');
   if (!grid) return;
@@ -731,10 +860,31 @@ function renderBrowseGrid(list) {
     addBtn.setAttribute('aria-label', `Add ${p.name} to cart`);
     addBtn.textContent = '+';
 
-    // Clicking the "+" adds to cart (but doesn't open detail)
+    // Clicking the "+" either adds directly or opens options drawer
     addBtn.addEventListener('click', (e) => {
       e.stopPropagation(); // don't trigger card click
-      addToCart(p, 1);
+
+      const sizes  = p.sizes || [];
+      const colors = p.color || [];
+
+      const multipleSizes  = sizes.length > 1;
+      const multipleColors = colors.length > 1;
+
+      // If there's only one size AND only one color (or none), just add immediately
+      if (!multipleSizes && !multipleColors) {
+        const defaultSize = sizes.length === 1 ? sizes[0] : '';
+        const defaultColorName = colors.length === 1 ? (colors[0].name || '') : '';
+        const defaultColorHex  = colors.length === 1 ? (colors[0].hex || '')  : '';
+
+        addToCart(p, 1, {
+          size: defaultSize,
+          colorName: defaultColorName,
+          colorHex: defaultColorHex
+        });
+      } else {
+        // Otherwise, let the user choose in the side drawer
+        openOptionDrawer(p);
+      }
     });
 
     // Clicking anywhere else on the card opens the single product view
