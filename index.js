@@ -247,9 +247,9 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Keep the loader visible for 2 seconds
   setTimeout(() => {
-    const loader = document.getElementById("loader");
+    const loader = document.querySelector("#loader");
     if (loader) loader.remove();
-  }, 1000);
+  }, 1400);
 });
 
 function loadProducts() {
