@@ -20,7 +20,31 @@
   display: none !important;
 }
 
-body { font-family: "Roboto Condensed", sans-serif; margin: 0;}
+#loader {
+  position: fixed;
+  inset: 0;                   /* full screen */
+  background: white;          
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999999;             /* above everything */
+}
+
+#loader img {
+  width: 120px;               /* adjust size */
+  height: auto;
+}
+
+body { 
+  font-family: "Roboto Condensed", sans-serif; 
+  margin: 0;
+  opacity: 0;           /* hide page until loader finishes */
+  transition: opacity 0.4s ease;
+}
+
+body.loaded {
+  opacity: 1;
+}
 
 /* Left / center / right alignment */
 /* Logo layout */
