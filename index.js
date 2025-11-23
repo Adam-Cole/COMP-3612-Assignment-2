@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#homeIntro')?.classList.remove('hidden');
     document.querySelector('#homeFeatured')?.classList.remove('hidden');
   });
-
+  
   // --- CONTINUE SHOPPING BUTTON ---
   document.querySelector('#continueBtn').addEventListener('click', () => {
     // DO NOT clear the cart
@@ -245,14 +245,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#filter').classList.remove('hidden');
   });
   
-  const loader = document.querySelector("#loader");
-  if (loader) {
-    loader.style.opacity = "0";
-    loader.style.transition = "opacity 0.3s ease";
-    setTimeout(() => loader.remove(), 300);
-  }
-
-  document.body.classList.add("loaded");  
+  // Keep the loader visible for 2 seconds
+  setTimeout(() => {
+    const loader = document.querySelector("#loader");
+    if (loader) loader.remove();
+  }, 1400);
 });
 
 function loadProducts() {
