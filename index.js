@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#homeIntro')?.classList.remove('hidden');
     document.querySelector('#homeFeatured')?.classList.remove('hidden');
   });
-
+  
   // --- CONTINUE SHOPPING BUTTON ---
   document.querySelector('#continueBtn').addEventListener('click', () => {
     // DO NOT clear the cart
