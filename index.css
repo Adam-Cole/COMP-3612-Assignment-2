@@ -1082,7 +1082,9 @@ header nav a {
 }
 
 .continue-shopping:hover {
-    background: #d1d5db;
+  background: #d1d5db;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 56, 147, 0.45);
 }
 
 /* Footer */
