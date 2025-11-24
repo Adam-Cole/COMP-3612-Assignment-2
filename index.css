@@ -224,7 +224,21 @@ header .logo {
 .gender-categories {
   max-width: var(--page-max);
   margin: 2.5rem auto 2rem;
-  padding: 0 var(--gutter);
+  padding: 2.5rem var(--gutter);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 16px;
+}
+
+/* Women’s category background */
+.gender-categories--women {
+  background-image: url("/images/istockphoto-857171382-612x612.jpg");
+}
+
+/* Men’s category background */
+.gender-categories--men {
+  background-image: url("/images/mens-categories-bg.jpg");
 }
 
 @media (max-width: 900px) {
@@ -1284,9 +1298,9 @@ footer.site-footer {
 .home-featured::before {
   content: "";
   position: absolute;
-  inset: -6px;                  /* slightly bigger than the box */
+  inset: -6px;                  /* slightly bigger than the box to give glow effect*/
   border-radius: inherit;
-  z-index: -1;                   /* sit behind the main section */
+  z-index: -1;                   /* so it sits behind the main section */
 
   background: conic-gradient(
     from var(--angle),
@@ -1297,10 +1311,10 @@ footer.site-footer {
     #ff6b6b
   );
 
-  filter: blur(14px);            /* 👈 controls how soft/wide the glow is */
+  filter: blur(14px);            /* this controls how soft/wide the glow is */
   opacity: 0.9;                  /* adjust if you want a softer glow */
   pointer-events: none;
-  animation: rotate-border 10s linear infinite; /* keep it in sync */
+  animation: rotate-border 10s linear infinite; /* keep two layers in sync */
 }
 
 .home-featured-header {
@@ -1402,7 +1416,7 @@ footer.site-footer {
 .featured-price {
   margin: 0;
   font-weight: 700;
-  color: #DC143C; /* red price highlight */
+  color: #DC143C;
 }
 
 .featured-desc {

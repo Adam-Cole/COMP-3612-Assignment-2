@@ -1241,8 +1241,26 @@ function setupCategoryView() {
     // hide home intro, hide browse, show gender categories section
     if (homeIntro) homeIntro.classList.add('hidden');
     if (browseArticle) browseArticle.classList.add('hidden');
+    // if (genderCategoriesSection) {
+    //   genderCategoriesSection.classList.remove('hidden');
+    //   const gKey = gender === 'women' ? 'womens' : 'mens';
+    //   buildGenderCategoryCards(gKey);
     if (genderCategoriesSection) {
+      // reset any previous gender-specific background
+      genderCategoriesSection.classList.remove(
+        'gender-categories--women',
+        'gender-categories--men'
+      );
+
+      // add the appropriate background class
+      if (gender === 'women') {
+        genderCategoriesSection.classList.add('gender-categories--women');
+      } else {
+        genderCategoriesSection.classList.add('gender-categories--men');
+      }
+
       genderCategoriesSection.classList.remove('hidden');
+
       const gKey = gender === 'women' ? 'womens' : 'mens';
       buildGenderCategoryCards(gKey);
     }
