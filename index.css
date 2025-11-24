@@ -1,8 +1,6 @@
 :root{ --page-max: 1024px; --gutter: 16px; /* side padding */
   --nepal-blue:#003893; /* from head and foot BG. Nepali Blue from https://www.schemecolor.com/nepal-flag-colors.php */
   --button:#3399FF;
-  --stars:#fbbf24; /* filled in star, ratings, review colour */
-  --toggle:#2563eb; /* color for custom radio toggle */
 }
 
 /* Header Layout */
@@ -22,18 +20,18 @@
 
 #loader {
   position: fixed;
-  inset: 0;                   /* full screen */
+  inset: 0; /* full screen */
   background: white;          
   display: flex;
   flex-direction: column;
   text-align: center;
   align-items: center;
   justify-content: center;
-  z-index: 9999999;             /* above everything */
+  z-index: 9999999; /* above everything */
 }
 
 #loader img {
-  width: 120px;               /* adjust size */
+  width: 120px; /* adjust size */
   height: auto;
 }
 
@@ -42,12 +40,11 @@ body {
   margin: 0;
 }
 
-
 /* Left / center / right alignment */
 /* Logo layout */
 .logo {
   display: flex;
-  align-items: center;   /* vertically center image + text */
+  align-items: center; /* vertically center image + text */
   gap: 12px;
 }
 
@@ -133,7 +130,7 @@ header .logo {
   inset: 0;
   background: linear-gradient(
     to right,
-    rgba(0, 0, 0, 0.50),   /* darkest behind the text */
+    rgba(0, 0, 0, 0.50), /* darkest behind the text */
     rgba(0, 0, 0, 0.15),
     transparent
   );
@@ -642,14 +639,24 @@ header .logo {
 
 /* Cart link + badge */
 .cart-link{
-  display:inline-flex; align-items:center; gap:8px;
-  color:white; text-decoration:none; font-weight:600;
+  display:inline-flex; 
+  align-items:center; 
+  gap:8px;
+  color:white; 
+  text-decoration:none; 
+  font-weight:600;
 }
 .cart-badge{
-  display:inline-grid; place-items:center;
-  min-width:18px; height:18px; padding:0 5px;
-  font-size:11px; line-height:1; color:#fff;
-  background:#285ea8; border-radius:999px;
+  display:inline-grid; 
+  place-items:center;
+  min-width:18px; 
+  height:18px; 
+  padding:0 5px;
+  font-size:11px; 
+  line-height:1; 
+  color:#fff;
+  background:#285ea8; 
+  border-radius:999px;
 }
 
 header nav a {
@@ -837,16 +844,16 @@ header nav a {
 }
 
 .cart-wrap {
-  max-width: 1200px;     /* keeps the cart area nicely centered */
-  margin: 40px auto;       /* creates equal left + right spacing */
-  padding: 0 24px;       /* adds inner breathing room on both sides */
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 24px;
   background: #faf9f7;
   border-radius: 16px;
   box-shadow: 0 10px 28px rgba(0,0,0,0.08);
   border: 1px solid #e7e5df;
 }
 
-/* Items grid: [select][image][title][color][size][price][qty][subtotal] */
+/* Items grid layout: [select][image][title][color][size][price][qty][subtotal] */
 .cart-head,.cart-row{
   display:grid;
   grid-template-columns: repeat(8, 1fr);
@@ -893,9 +900,9 @@ header nav a {
 
 .thumb img,
 .cart-thumb-img {
-  height: 100%;               /* match the 86px box height */
-  width: auto;                /* keep aspect ratio */
-  max-width: 100%;            /* don’t spill sideways */
+  height: 100%;
+  width: auto;
+  max-width: 100%;
   object-fit: contain;
   display: block;
 }
@@ -935,10 +942,18 @@ header nav a {
 
 /* Color + Size cells */
 .color-cell{ justify-self:center }
-.swatch{ width:18px; height:18px; outline:1px solid #e5e7eb; display:inline-block }
+.swatch{ 
+  width:18px; 
+  height:18px; 
+  outline:1px solid #e5e7eb; 
+  display:inline-block }
 .size-cell{
   justify-self:center;
-  padding:4px 8px; border:1px solid #e5e7eb; border-radius:8px; font-size:12px; background:#fff
+  padding:4px 8px; 
+  border:1px solid #e5e7eb; 
+  border-radius:8px; 
+  font-size:12px; 
+  background:#fff
 }
 
 /* Remove icon at far left like mock */
@@ -956,7 +971,9 @@ header nav a {
 }
 
 /* Empty state */
-.empty{ padding:28px 20px; text-align:center; color:#64748b }
+.empty{ padding:28px 20px; 
+  text-align:center; 
+  color:#64748b }
 
 /* Right column layout */
 .side{ display:grid; 
@@ -998,23 +1015,32 @@ header nav a {
 .field{ display:grid; gap:6px }
 .select{ position:relative }
 .select select{
-  width:100%; appearance:none;
-  padding:10px 12px; border:1px solid #d1d5db; border-radius:10px; background:#fff;
+  width:100%; 
+  appearance:none;
+  padding:10px 12px; 
+  border:1px solid #d1d5db; 
+  border-radius:10px; 
+  background:#fff;
 }
 /* Disabled look exactly like the mock */
 .stack.disabled{
-  background:#f3f4f6;            /* light grey block */
+  background:#f3f4f6; /* light grey block */
   padding:12px;
-  opacity:1;                      /* keep labels crisp */
+  opacity:1;
 }
 .stack.disabled select{
-  background:#eef0f3;             /* inner fields slightly lighter */
+  background:#eef0f3; /* inner fields slightly lighter */
   color:#9aa3ad;
   border-color:#d8dde3;
 }
 .select::after{
-  content:"▾"; position:absolute; right:10px; top:50%; translate:0 -50%;
-  color:#9aa3ad; pointer-events:none;
+  content:"▾"; 
+  position:absolute; 
+  right:10px; 
+  top:50%; 
+  translate:0 -50%;
+  color:#9aa3ad; 
+  pointer-events:none;
 }
 
 /* --- Summary box --- */
@@ -1022,11 +1048,14 @@ header nav a {
   background:#fff;
 }
 .summary .row{
-  display:flex; justify-content:space-between; align-items:center;
-  padding:10px 12px; border-bottom:1px solid #d7dde6;
+  display:flex; 
+  justify-content:space-between; 
+  align-items:center;
+  padding:10px 12px; 
+  border-bottom:1px solid #d7dde6;
 }
 .summary .row:first-of-type{
-  border:1px solid #334155;      /* dark border around the box */
+  border:1px solid #334155; /* dark border around the box */
   border-bottom:1px solid #d7dde6;
   margin-top:6px;
 }
@@ -1048,14 +1077,14 @@ header nav a {
   padding:10px 18px;
   border-radius:10px;
   font-weight:700;
-  border:1px solid #6b7280;       /* dark outline like mock */
-  background:#e5e7eb;             /* gray fill */
+  border:1px solid #6b7280;
+  background:#e5e7eb; /* gray fill */
   box-shadow: 0 3px 8px rgba(0, 56, 147, 0.35);
   transition: transform 0.2s, box-shadow 0.2s;   
-  cursor:not-allowed;              /* disabled by default */
+  cursor:not-allowed; /* disabled by default */
 }
 .checkout.ready{
-  background:#4f46e5;             /* enable style */
+  background:#4f46e5; /* enable style */
   color:#fff;
   border-color:#4338ca;
   box-shadow:0 2px 0 #3730a3;
@@ -1122,15 +1151,26 @@ footer.site-footer {
 }
 
 /* Inner layout */
-.footer-container { max-width: 1000px; margin: 0 auto; padding: 36px 20px; }
+.footer-container { 
+  max-width: 1000px; 
+  margin: 0 auto; 
+  padding: 36px 20px; 
+}
 .footer-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   margin-bottom: 16px;
   justify-items: center;
 }
-.footer-grid h4 { margin: 0 0 10px; font-weight: 700; }
-.footer-grid ul { list-style: none; margin: 8px 0 0; padding: 10px;}
+.footer-grid h4 { 
+  margin: 0 0 10px; 
+  font-weight: 700; 
+}
+.footer-grid ul { 
+  list-style: none; 
+  margin: 8px 0 0; 
+  padding: 10px;
+}
 
 /* Link styles */
 .site-footer a,
@@ -1285,7 +1325,7 @@ footer.site-footer {
 
 /* Outer shell: conic-gradient border */
 .home-featured {
-  --angle: 180deg;  /* starting angle */
+  --angle: 180deg; /* starting angle */
 
   max-width: var(--page-max);
   margin: 4.5rem auto 4.5rem;
@@ -1310,9 +1350,9 @@ footer.site-footer {
 .home-featured::before {
   content: "";
   position: absolute;
-  inset: -6px;                  /* slightly bigger than the box to give glow effect*/
+  inset: -6px; /* slightly bigger than the box to give glow effect*/
   border-radius: inherit;
-  z-index: -1;                   /* so it sits behind the main section */
+  z-index: -1; /* so it sits behind the main section */
 
   background: conic-gradient(
     from var(--angle),
@@ -1323,8 +1363,8 @@ footer.site-footer {
     #ff6b6b
   );
 
-  filter: blur(14px);            /* this controls how soft/wide the glow is */
-  opacity: 0.9;                  /* adjust if you want a softer glow */
+  filter: blur(14px); /* this controls how soft/wide the glow is */
+  opacity: 0.9; /* adjust if you want a softer glow */
   pointer-events: none;
   animation: rotate-border 10s linear infinite; /* keep two layers in sync */
 }
