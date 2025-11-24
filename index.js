@@ -840,6 +840,14 @@ function renderBrowseGrid(list) {
 
   grid.textContent = '';
 
+  if (!list || list.length === 0) {
+    const msg = document.createElement('p');
+    msg.className = 'browse-empty-message';
+    msg.textContent = 'No products match your filters.';
+    grid.appendChild(msg);
+    return;
+  }
+
   list.forEach(p => {
     const card = document.createElement('article');
     card.classList.add('product-card');
