@@ -99,7 +99,17 @@ function renderCart() {
     itemCount  += item.qty;
 
     const row = template.content.firstElementChild.cloneNode(true);
-    row.dataset.itemId = item.id;
+    // row.dataset.itemId = item.id; //old way, no picture
+    const product = products ? products.find(p => p.id === item.id) : null;
+    const thumbDiv = row.querySelector('.thumb');
+    if (thumbDiv) {
+      thumbDiv.textContent = '';
+      const img = document.createElement('img');
+      img.src = product ? getProductImageSrc(product) : '/images/all.jpg';
+      img.alt = item.name;
+      img.classList.add('cart-thumb-img');
+      thumbDiv.appendChild(img);
+    }
 
     // DELETE item feature
     const removeBtn = row.querySelector('.remove-icon');
@@ -306,19 +316,34 @@ const SIZE_TYPE_MAP = {
 };
 
 const CATEGORY_IMAGE_MAP = {
-  'All':        'all.jpg',
-  'Tops':       'tops.jpg',
-  'Bottoms':    'bottoms.jpg',
-  'Sweaters':   'sweaters.jpg',
-  'Outerwear':  'outerwear.jpg',
-  'Dresses':    'dress.jpg',
-  'Jumpsuits':  'jumpsuit.jpg',
-  'Accessories':'accessories.jpg',
-  'Shoes':      'shoes.jpg',
-  'Intimates':  'intimates.jpg',
-  'Loungewear': 'loungewear.jpg',
-  'Swimwear':   'swimwear.jpg'
+  'All':        '/images/all.jpg',
+  'Tops':       '/images/tops.jpg',
+  'Bottoms':    '/images/bottoms.jpg',
+  'Sweaters':   '/images/sweaters.jpg',
+  'Outerwear':  '/images/outerwear.jpg',
+  'Dresses':    '/images/dress.jpg',
+  'Jumpsuits':  '/images/jumpsuit.jpg',
+  'Accessories':'/images/accessories.jpg',
+  'Shoes':      '/images/shoes.jpg',
+  'Intimates':  '/images/intimates.jpg',
+  'Loungewear': '/images/loungewear.jpg',
+  'Swimwear':   '/images/swimwear.jpg'
 };
+
+function getProductImageSrc(product) {
+  // 1) If we have a “real” photo mapped by name, use that
+  // if (FEATURED_IMAGE_MAP[product.name]) {
+  //   return FEATURED_IMAGE_MAP[product.name];
+  // }
+
+  // 2) Otherwise fall back to a generic category icon
+  if (CATEGORY_IMAGE_MAP[product.category]) {
+    return CATEGORY_IMAGE_MAP[product.category];
+  }
+
+  // 3) Last resort: generic “all” icon if you have one
+  return "/images/all.jpg";
+}
 
 function buildSizeFilters() {
   const container = document.querySelector('#sizeFilter');
@@ -389,7 +414,7 @@ function buildGenderCategoryCards(gender) {
     btn.type = 'button';
     btn.className = 'category-card';
     btn.dataset.category = cat;
-    btn.dataset.gender = gender;   // 👈 now gender will be set correctly
+    btn.dataset.gender = gender;
 
     const ph = document.createElement('div');
     ph.className = 'placeholder';
@@ -401,7 +426,7 @@ function buildGenderCategoryCards(gender) {
 
     // Look up the file name from our map; fall back to "all.jpg" if missing
     const fileName = CATEGORY_IMAGE_MAP[cat] || CATEGORY_IMAGE_MAP['All'];
-    img.src = `/images/${fileName}`;
+    img.src = `${fileName}`;
     img.alt = `${cat} category`;
 
     ph.appendChild(img);
@@ -880,7 +905,13 @@ function renderBrowseGrid(list) {
 
     const imgPlaceholder = document.createElement('div');
     imgPlaceholder.classList.add('placeholder-img');
-    imgPlaceholder.textContent = 'placeholder';
+    // imgPlaceholder.textContent = 'placeholder';
+    const img = document.createElement('img');
+    img.src = getProductImageSrc(p);
+    img.alt = p.name;
+    img.classList.add('product-card-img');
+
+    imgPlaceholder.appendChild(img);
 
     const title = document.createElement('div');
     title.classList.add('title');
@@ -1479,6 +1510,19 @@ function renderSingleProduct(product) {
   if (matEl)   matEl.textContent   = product.material || '—';
   if (qtyInput) qtyInput.value = 1;
 
+  const mainImgWrap  = document.querySelector('.product-image-main');
+  const thumbsWrap   = document.querySelector('.product-image-thumbs');
+  const productImage = getProductImageSrc(product);
+
+  if (mainImgWrap) {
+    mainImgWrap.textContent = '';
+    const img = document.createElement('img');
+    img.src = productImage;
+    img.alt = product.name;
+    img.classList.add('product-main-img');
+    mainImgWrap.appendChild(img);
+  }
+
   // Sizes as pills
   if (sizeRow) {
   sizeRow.textContent = '';
@@ -1640,7 +1684,7 @@ function renderSingleRelatedProducts(product) {
   }
 
   // 4. Cap at 4 items
-  related = related.slice(0, 4); // up to 4
+  related = related.slice(0, 4); // up to 4 related items
 
   related.forEach(p => {
     const card = document.createElement('article');
@@ -1648,7 +1692,14 @@ function renderSingleRelatedProducts(product) {
 
     const imgPlaceholder = document.createElement('div');
     imgPlaceholder.classList.add('placeholder-img');
-    imgPlaceholder.textContent = 'placeholder';
+    // imgPlaceholder.textContent = 'placeholder'; //old placeholder
+
+    const img = document.createElement('img');
+    img.src = getProductImageSrc(p);
+    img.alt = p.name;
+    img.classList.add('product-card-img');
+
+    imgPlaceholder.appendChild(img);
 
     const title = document.createElement('div');
     title.classList.add('title');

@@ -480,14 +480,38 @@ header .logo {
 }
 
 .product-card .placeholder-img {
-  height: 110px;
+  height: 160px;
   background: #f3f4f6;
   border: 1px dashed #d1d5db;
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
   margin-bottom: 8px;
   font-size: 0.75rem;
   color: #9ca3af;
+  overflow: hidden;
+}
+
+.product-card .product-card-img {
+  max-width: 100%;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.product-image-main img.product-main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.product-image-thumbs img.product-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 6px;
 }
 
 .product-card .title {
@@ -855,10 +879,27 @@ header nav a {
 }
 
 .thumb{
-  width:86px;height:86px;border:1px dashed #cbd5e1;border-radius:10px;
-  display:grid;place-items:center;color:#9ca3af;background:#f8fafc;
+  width:86px;
+  height:86px;
+  border:1px dashed #cbd5e1;
+  border-radius:10px;
+  display:flex;
+  place-items:center;
+  color:#9ca3af;
+  background:#f8fafc;
   justify-self:start;
+  overflow: hidden;
 }
+
+.thumb img,
+.cart-thumb-img {
+  height: 100%;               /* match the 86px box height */
+  width: auto;                /* keep aspect ratio */
+  max-width: 100%;            /* don’t spill sideways */
+  object-fit: contain;
+  display: block;
+}
+
 .title{ font-weight:700 }
 .num{ font-variant-numeric:tabular-nums; }
 
