@@ -110,7 +110,8 @@ header .logo {
 /* HERO section under the header */
 .hero {
   height: 40vh; /* originally 260px, shorter, not sure which is visually better */
-  min-height: 260px;
+  min-height: 55vh;
+  justify-content: center;
   background-image: url("/images/Hero_Boudhanath_Panorama_2016.jpg");
   background-size: cover; 
   background-repeat: no-repeat;
@@ -119,7 +120,6 @@ header .logo {
   align-items: center;
   padding: 32px 16px;
   transition: height 0.6s ease;
-
   position: relative;
   overflow: hidden;
 }
@@ -150,10 +150,11 @@ header .logo {
 }
 
 .hero-text {
-  max-width: 750px;                
+   max-width: 680px;
+  text-align: left;
+  padding: 20px 24px;                
   background: transparent;     
   color: #fff;
-  padding: 18px 26px;
   border-radius: 8px;
 }
 
@@ -253,6 +254,32 @@ header .logo {
   .category-gallery {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
+  .hero {
+    min-height: 48vh;
+    padding: 40px
+     20px;
+  }
+
+  #heroCopy h1:first-of-type {
+    font-size: 2.4rem;
+  }
+
+  #heroCopy h1:nth-of-type(2) {
+    font-size: 2rem;
+  }
+
+  #heroCopy p {
+    font-size: 1.2rem;
+  }
+
+  #browseView {
+    padding: 30px 18px;
+  }
+
+  .browse-grid {
+    gap: 20px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -267,6 +294,50 @@ header .logo {
   }
   .category-gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero {
+    min-height: 60vh;
+    padding: 28px 18px;
+    justify-content: flex-start;
+  }
+
+  .hero-text {
+    padding: 12px 16px;
+  }
+
+  #heroCopy h1:first-of-type {
+    font-size: 1.9rem;
+    margin-bottom: 8px;
+  }
+
+  #heroCopy p:first-of-type {
+    font-size: 1.1rem;
+    margin-bottom: 18px;
+  }
+
+  #heroCopy h1:nth-of-type(2) {
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+  }
+
+  #heroCopy p:nth-of-type(2) {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  
+  #browseView h1 {
+    font-size: 1.8rem;
+    margin-bottom: 24px;
+  }
+
+  .browse-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .product-card h3 {
+    font-size: 1rem;
   }
 }
 
@@ -326,6 +397,21 @@ header .logo {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr); /* sidebar + main */
   gap: 24px;
+}
+
+#browseView {
+  padding: 40px 20px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+#browseView h1 {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--nepal-blue);
+  letter-spacing: 0.03em;
+  margin-bottom: 32px;
 }
 
 .browse-filters {
@@ -463,9 +549,51 @@ header .logo {
 /* product grid under categories */
 .browse-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px 20px;
   margin-top: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 26px;
+  padding: 10px;
+}
+
+.browse-grid .product-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  transition: transform 0.25s ease;
+}
+.browse-grid .product-card:hover img {
+  transform: scale(1.03);
+}
+
+.browse-grid .product-card {
+  background: #ffffff;
+  border: 1px solid #d8d3c4;
+  border-radius: 16px;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.06);
+  padding: 14px;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.browse-grid .product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.10);
+}
+
+.product-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #2e2a25;
+  margin-bottom: 6px;
+}
+
+.product-card .price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--nepal-blue);
+  letter-spacing: 0.01em;
 }
 
 .product-card {
