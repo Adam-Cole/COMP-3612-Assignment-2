@@ -305,6 +305,21 @@ const SIZE_TYPE_MAP = {
   '10': 'Shoe size'
 };
 
+const CATEGORY_IMAGE_MAP = {
+  'All':        'all.jpg',
+  'Tops':       'tops.jpg',
+  'Bottoms':    'bottoms.jpg',
+  'Sweaters':   'sweaters.jpg',
+  'Outerwear':  'outerwear.jpg',
+  'Dresses':    'dress.jpg',
+  'Jumpsuits':  'jumpsuit.jpg',
+  'Accessories':'accessories.jpg',
+  'Shoes':      'shoes.jpg',
+  'Intimates':  'intimates.jpg',
+  'Loungewear': 'loungewear.jpg',
+  'Swimwear':   'swimwear.jpg'
+};
+
 function buildSizeFilters() {
   const container = document.querySelector('#sizeFilter');
   if (!container || !products || products.length === 0) return;
@@ -378,7 +393,18 @@ function buildGenderCategoryCards(gender) {
 
     const ph = document.createElement('div');
     ph.className = 'placeholder';
-    ph.textContent = 'placeholder';
+    // ph.textContent = 'placeholder';
+
+    // Create the image for this category
+    const img = document.createElement('img');
+    img.className = 'category-icon';
+
+    // Look up the file name from our map; fall back to "all.jpg" if missing
+    const fileName = CATEGORY_IMAGE_MAP[cat] || CATEGORY_IMAGE_MAP['All'];
+    img.src = `/images/${fileName}`;
+    img.alt = `${cat} category`;
+
+    ph.appendChild(img);
 
     const label = document.createElement('div');
     label.className = 'label';
