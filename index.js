@@ -215,8 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
-  renderCart();     // set up the empty cart
-  loadProducts();   // fetch data-pretty.json and build product cards
+  renderCart(); // set up the empty cart
+  loadProducts(); // fetch data-pretty.json and build product cards
   setupAboutDialog();
   setupCategoryView();
   setupCategoryClickToBrowse();
@@ -235,8 +235,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     showToast("Your order has been placed!");
 
-    cart = [];          // clear shopping cart
-    renderCart();       // update UI
+    cart = []; // clear shopping cart
+    renderCart();  // update UI
     hideAllMainViews(); // hide all views
 
     // go back to home view
@@ -276,7 +276,7 @@ function loadProducts() {
 
       // Rebuild any dynamic UI that depends on products
       buildSizeFilters()
-      buildColorFilters();          // dynamic COLORS accordion
+      buildColorFilters(); // dynamic colors accordion
       applyBrowseFilters();
       buildFeaturedProducts();
     })
@@ -331,17 +331,12 @@ const CATEGORY_IMAGE_MAP = {
 };
 
 function getProductImageSrc(product) {
-  // 1) If we have a “real” photo mapped by name, use that
-  // if (FEATURED_IMAGE_MAP[product.name]) {
-  //   return FEATURED_IMAGE_MAP[product.name];
-  // }
 
-  // 2) Otherwise fall back to a generic category icon
   if (CATEGORY_IMAGE_MAP[product.category]) {
     return CATEGORY_IMAGE_MAP[product.category];
   }
 
-  // 3) Last resort: generic “all” icon if you have one
+  //fallback: generic “all” icon
   return "/images/all.jpg";
 }
 
@@ -418,13 +413,13 @@ function buildGenderCategoryCards(gender) {
 
     const ph = document.createElement('div');
     ph.className = 'placeholder';
-    // ph.textContent = 'placeholder';
+    // ph.textContent = 'placeholder'; //old way without image
 
     // Create the image for this category
     const img = document.createElement('img');
     img.className = 'category-icon';
 
-    // Look up the file name from our map; fall back to "all.jpg" if missing
+    // Look up the file name from our map, fall back to "all.jpg" if missing
     const fileName = CATEGORY_IMAGE_MAP[cat] || CATEGORY_IMAGE_MAP['All'];
     img.src = `${fileName}`;
     img.alt = `${cat} category`;
@@ -516,10 +511,10 @@ const sizeTypeMap = {
 };
 
 const browseFilters = {
-  genders: new Set(),      // 'womens' , 'mens'
-  categories: new Set(),    // 'Tops', 'Intimates', ...
-  sizes: new Set(),  // 'Small', 'Medium', ...
-  colors: new Set()  // 'Beige', 'Blue', ...
+  genders: new Set(),
+  categories: new Set(),
+  sizes: new Set(),
+  colors: new Set()
 };
 
 function setupBrowseFilters() {
@@ -557,7 +552,7 @@ function setupBrowseFilters() {
             // "All" means no category filters
             browseFilters.categories.clear();
 
-            // visually: All ON, others OFF
+            // but visually: All ON, others OFF
             sidebar
             .querySelectorAll('.filter-pill[data-category]')
             .forEach(btn => btn.classList.remove('active'));
@@ -575,7 +570,7 @@ function setupBrowseFilters() {
             pill.classList.add('active');
             }
 
-            // if any specific categories selected, All should NOT look active
+            // if any specific categories selected, All does not look active
             if (allPill) {
             allPill.classList.toggle('active', browseFilters.categories.size === 0);
             }
@@ -610,7 +605,7 @@ function setupBrowseFilters() {
     }
   });
 
-  // Tag row: click on a tag or Clear All (event delegation)
+  // Tag row: click on a tag or Clear All icon to clear all
   tagsRow.addEventListener('click', (e) => {
     const clearBtn = e.target.closest('.browse-clear');
     const tag = e.target.closest('.browse-tag');
@@ -657,7 +652,7 @@ function applyBrowseFilters() {
     });
   }
 
-  // sort (using existing browseState.sort)
+  // sort (using the existing browseState.sort)
   if (browseState.sort === 'name') {
     list.sort((a, b) => a.name.localeCompare(b.name));
   } else if (browseState.sort === 'category') {
@@ -691,11 +686,11 @@ function openOptionDrawer(product) {
   const sizes = product.sizes || [];
   const colors = product.color || [];
 
-  // Show / hide groups depending on data
+  // Show/hide groups
   sizeGroup.style.display  = sizes.length ? 'block' : 'none';
   colorGroup.style.display = colors.length ? 'block' : 'none';
 
-  // Build size pills
+  // Size pills
   sizeRow.textContent = '';
   sizes.forEach((sz, index) => {
     const pill = document.createElement('button');
@@ -759,7 +754,7 @@ function setupBrowse() {
   const navWomen  = document.querySelector('#navWomen');
   const navMen    = document.querySelector('#navMen');
 
-  const filterArticle = document.querySelector('#filter');          // browse layout
+  const filterArticle = document.querySelector('#filter');
   const homeIntro     = document.querySelector('#homeIntro');
   const genderCategoriesSection = document.querySelector('#genderCategories');
 
@@ -847,7 +842,7 @@ function setupOptionDrawer() {
 
   if (!overlay || !closeBtn || !addBtn) return;
 
-  // Close on X or backdrop click
+  // Close on either X or surrounding click
   closeBtn.addEventListener('click', closeOptionDrawer);
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) {
@@ -855,7 +850,7 @@ function setupOptionDrawer() {
     }
   });
 
-  // Confirm selection -> add to cart
+  // Confirm selection = add to cart
   addBtn.addEventListener('click', () => {
     if (!optionDrawerProduct) return;
 
@@ -905,7 +900,7 @@ function renderBrowseGrid(list) {
 
     const imgPlaceholder = document.createElement('div');
     imgPlaceholder.classList.add('placeholder-img');
-    // imgPlaceholder.textContent = 'placeholder';
+    // imgPlaceholder.textContent = 'placeholder'; //old way without image
     const img = document.createElement('img');
     img.src = getProductImageSrc(p);
     img.alt = p.name;
@@ -933,7 +928,7 @@ function renderBrowseGrid(list) {
 
     // Clicking the "+" either adds directly or opens options drawer
     addBtn.addEventListener('click', (e) => {
-      e.stopPropagation(); // don't trigger card click
+      e.stopPropagation();
 
       const sizes  = p.sizes || [];
       const colors = p.color || [];
@@ -941,7 +936,7 @@ function renderBrowseGrid(list) {
       const multipleSizes  = sizes.length > 1;
       const multipleColors = colors.length > 1;
 
-      // If there's only one size AND only one color (or none), just add immediately
+      // If there's only one size and only one color (or none), add immediately
       if (!multipleSizes && !multipleColors) {
         const defaultSize = sizes.length === 1 ? sizes[0] : '';
         const defaultColorName = colors.length === 1 ? (colors[0].name || '') : '';
@@ -953,12 +948,12 @@ function renderBrowseGrid(list) {
           colorHex: defaultColorHex
         });
       } else {
-        // Otherwise, let the user choose in the side drawer
+        // Otherwise, let the customer choose in the side drawer
         openOptionDrawer(p);
       }
     });
 
-    // Clicking anywhere else on the card opens the single product view
+    // Clicking anywhere else on the card will open the single product view
     card.addEventListener('click', () => {
       showSingleProduct(p.id);
     });
@@ -1024,7 +1019,7 @@ function renderBrowseTags() {
     tags.push({
         type: 'size',
         value: size,
-        label: `${size} - ${typeLabel}`   // e.g. "7 – Shoes"
+        label: `${size} - ${typeLabel}` // e.g. "7 – Shoes", "XL - Clothing", etc.
     });
   });
 
@@ -1117,7 +1112,6 @@ function removeSingleFilter(type, value) {
       if (input) input.checked = false;
     }
   }
-
   applyBrowseFilters();
 }
 
@@ -1405,7 +1399,7 @@ function setupCategoryClickToBrowse() {
     const card = e.target.closest('.category-card');
     if (!card) return;
 
-    const gender   = card.dataset.gender;   // 'womens' or 'mens'
+    const gender   = card.dataset.gender; // 'womens' or 'mens'
     const category = card.dataset.category; // e.g. 'Tops'
 
     // --- 1) Update filter state using browseFilters (not browseState) ---
@@ -1484,7 +1478,7 @@ function showSingleProduct(productId) {
 }
 
 function renderSingleProduct(product) {
-  // Breadcrumb: "Home > Women > Dresses > Product Name"
+  // Breadcrumb example: "Home > Women > Dresses > Product Name"
   const breadcrumb = document.querySelector('#spBreadcrumb');
   if (breadcrumb) {
     const genderLabel =
@@ -1623,7 +1617,6 @@ function renderSingleProduct(product) {
           selectedColorHex  = product.color[0].hex || '';
         }
       }
-
       addToCart(product, qty, {
         size: selectedSize,
         colorName: selectedColorName,
