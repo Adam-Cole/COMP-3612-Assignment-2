@@ -225,6 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupBrowseFilters();
   setupCartButton();
   setupOptionDrawer();
+  setupAccordions();
 
   // --- SHIPPING OPTION CHANGE LISTENERS ---
   document.querySelector('#shipMethod').addEventListener('change', renderCart);
@@ -749,6 +750,29 @@ function closeOptionDrawer() {
   optionDrawerProduct = null;
 }
 
+let accordionsInitialized = false;
+
+function setupAccordions() {
+  if (accordionsInitialized) return;  // safe to call multiple times
+
+  const headers = document.querySelectorAll('.collapsible-header');
+  headers.forEach(header => {
+    header.addEventListener('click', () => {
+      const content = header.nextElementSibling;
+      const arrow   = header.querySelector('.arrow');
+
+      if (!content) return;
+
+      content.classList.toggle('expanded');
+      if (arrow) {
+        arrow.classList.toggle('expanded');
+      }
+    });
+  });
+
+  accordionsInitialized = true;
+}
+
 function setupBrowse() {
   const navBrowse = document.querySelector('#navBrowse');
   const navHome   = document.querySelector('#navHome');
@@ -814,22 +838,6 @@ function setupBrowse() {
     browseSort.addEventListener('change', () => {
       browseState.sort = browseSort.value;
       applyBrowseFilters();
-    });
-  }
-
-  // sidebar accordion setup (Gender / Category / Size / Colors)
-  function setupAccordions() {
-    const headers = document.querySelectorAll('.collapsible-header');
-    headers.forEach(header => {
-      header.addEventListener('click', () => {
-        const content = header.nextElementSibling;
-        const arrow = header.querySelector('.arrow');
-
-        content.classList.toggle('expanded');
-        if (arrow) {
-          arrow.classList.toggle('expanded');
-        }
-      });
     });
   }
 }
@@ -1462,7 +1470,7 @@ function showSingleProduct(productId) {
   if (!product) return;
 
   const heroSection = document.querySelector('.hero');
-  const homeIntro   = document.querySelector('#homeIntro');
+  const homeIntro = document.querySelector('#homeIntro');
   const genderCategoriesSection = document.querySelector('#genderCategories');
   const browseArticle = document.querySelector('#filter');
   const singleArticle = document.querySelector('#singleproduct');

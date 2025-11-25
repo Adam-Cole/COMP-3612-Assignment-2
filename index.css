@@ -49,8 +49,8 @@ body {
 }
 
 .logo img {
-  width: 100px;
-  height: 50px;
+  width: 65px;
+  height: 65px;
 }
 
 .logo span {
@@ -249,7 +249,7 @@ header .logo {
     font-size: 1.6rem;   
   }
   .hero-text {
-    max-width: 600px; 
+    max-width: 640px; 
   }
 }
 
@@ -564,17 +564,27 @@ header .logo {
 .browse-grid {
   display: grid;
   margin-top: 18px;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 26px;
   padding: 10px;
+}
+
+@media (max-width: 800px) {
+  .browse-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+}
+
+@media (max-width: 550px) {
+  .browse-grid {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  }
 }
 
 .browse-grid .product-card img {
   width: 100%;
   aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 14px;
-  margin-bottom: 12px;
+  border-radius: 0px;
   transition: transform 0.25s ease;
 }
 .browse-grid .product-card:hover img {
@@ -620,9 +630,11 @@ header .logo {
 
 .product-card .placeholder-img {
   height: 160px;
+  aspect-ratio: 1 / 1;
   background: #f3f4f6;
   border: 1px dashed #d1d5db;
   display: flex;
+  align-items: stretch;
   justify-content: center;
   margin-bottom: 8px;
   font-size: 0.75rem;
@@ -630,10 +642,8 @@ header .logo {
   overflow: hidden;
 }
 
-.product-card .product-card-img {
-  max-width: 100%;
-  width: auto;
-  height: 100%;
+.product-card .product-card-img img {
+  width: 100%;
   object-fit: contain;
   display: block;
 }
@@ -1098,7 +1108,7 @@ header nav a {
   background:#fff
 }
 
-/* Remove icon at far left like mock */
+/* Remove icon at far left */
 .remove-icon {
   cursor: pointer;
   color: #b91c1c;
@@ -1164,7 +1174,7 @@ header nav a {
   border-radius:10px; 
   background:#fff;
 }
-/* Disabled look exactly like the mock */
+/* Disabled look */
 .stack.disabled{
   background:#f3f4f6; /* light grey block */
   padding:12px;
