@@ -215,8 +215,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
-  renderCart(); // set up the empty cart
-  loadProducts(); // fetch data-pretty.json and build product cards
+  loadProducts().then(() => {
+    renderCart(); // now products is loaded BEFORE cart rendering
+  });
   setupAboutDialog();
   setupCategoryView();
   setupCategoryClickToBrowse();
@@ -263,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function loadProducts() {
-  fetch("https://gist.githubusercontent.com/rconnolly/d37a491b50203d66d043c26f33dbd798/raw/37b5b68c527ddbe824eaed12073d266d5455432a/clothing-compact.json")
+   return fetch("https://gist.githubusercontent.com/rconnolly/d37a491b50203d66d043c26f33dbd798/raw/37b5b68c527ddbe824eaed12073d266d5455432a/clothing-compact.json")
     .then(response => {
       if (!response.ok) {
         throw new Error("Network response was not ok: " + response.status);
@@ -1203,7 +1204,8 @@ function addToCart(product, qty = 1, options = {}) {
       qty,
       size,
       colorName,
-      colorHex
+      colorHex,
+      imageCategory: product.category
     });
   }
 
