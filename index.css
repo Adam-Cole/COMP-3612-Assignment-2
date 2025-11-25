@@ -110,7 +110,7 @@ header .logo {
 /* HERO section under the header */
 .hero {
   height: 40vh; /* originally 260px, shorter, not sure which is visually better */
-  min-height: 55vh;
+  min-height: 32vh;
   
   background-image: url("/images/Hero_Boudhanath_Panorama_2016.jpg");
   background-size: cover; 
@@ -1344,6 +1344,25 @@ footer.site-footer {
   line-height: 1.5;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
   position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+@media (max-width: 600px) {
+  .about-dialog {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    margin: 0;
+    border-radius: 0;
+    padding: 16px 16px 24px;
+    box-sizing: border-box;
+  }
+
+  .about-dialog h2 {
+    font-size: 1.1rem;
+  }
 }
 
 .about-dialog h2 {
