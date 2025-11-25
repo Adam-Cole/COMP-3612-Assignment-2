@@ -111,7 +111,7 @@ header .logo {
 .hero {
   height: 40vh; /* originally 260px, shorter, not sure which is visually better */
   min-height: 55vh;
-  justify-content: center;
+  
   background-image: url("/images/Hero_Boudhanath_Panorama_2016.jpg");
   background-size: cover; 
   background-repeat: no-repeat;
@@ -146,11 +146,12 @@ header .logo {
 
 /* Compact height for WOMEN / MEN views */
 .hero.hero--compact {
-  height: 260px;
+  height: 32vh;
+  min-height: 32vh;
 }
 
 .hero-text {
-   max-width: 680px;
+  max-width: 680px;
   text-align: left;
   padding: 20px 24px;                
   background: transparent;     
