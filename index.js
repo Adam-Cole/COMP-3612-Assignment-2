@@ -12,10 +12,10 @@ const browseState = {
 };
 
 const FEATURED_IMAGE_MAP = {
-  "Wool Coat": "images/Wool Coat.jpg",
+  "Wool Coat": "images/Wool Coat.JPG",
   "Leather Moto Jacket": "images/Leather Moto Jacket.jpg",
   "Wool Blend Trench Coat": "images/Wool Blend Trench Coat.jpg",
-  "Cashmere Robe": "images/Cashmere Robe 2.jpg"
+  "Cashmere Robe": "images/Cashmere Robe 2.JPG"
 };
 
 // Shipping pricing rules
@@ -319,10 +319,10 @@ const SIZE_TYPE_MAP = {
 
 const CATEGORY_IMAGE_MAP = {
   'All':        "images/all.jpg",
-  'Tops':       "images/tops.jpg",
-  'Bottoms':    "images/bottoms.jpg",
-  'Sweaters':   "images/sweaters.jpg",
-  'Outerwear':  "images/outerwear.jpg",
+  'Tops':       "images/tops.JPG",
+  'Bottoms':    "images/bottoms.JPG",
+  'Sweaters':   "images/sweaters.JPG",
+  'Outerwear':  "images/outerwear.JPG",
   'Dresses':    "images/dress.jpg",
   'Jumpsuits':  "images/jumpsuit.jpg",
   'Accessories':"images/accessories.jpg",
