@@ -564,27 +564,33 @@ header .logo {
 .browse-grid {
   display: grid;
   margin-top: 18px;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  /* cards between 220px and 280px wide, never wider */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 200px));
   gap: 26px;
   padding: 10px;
+  justify-content: left;   /* center cards when there's extra space */
+  overflow: hidden;
 }
 
+/* on tablets: allow a bit narrower cards */
 @media (max-width: 800px) {
   .browse-grid {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 200px));
   }
 }
 
+/* on phones: single column that can fill the width */
 @media (max-width: 550px) {
   .browse-grid {
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 200px));
   }
 }
 
 .browse-grid .product-card img {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  border-radius: 0px;
+  display: block;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
   transition: transform 0.25s ease;
 }
 .browse-grid .product-card:hover img {
@@ -628,13 +634,13 @@ header .logo {
   font-size: 0.9rem;
 }
 
-.product-card .placeholder-img {
+.product-card .placeholder-img img {
+   width: 100%;
   height: 160px;
-  aspect-ratio: 1 / 1;
-  background: #f3f4f6;
+  background: #fff;
   border: 1px dashed #d1d5db;
   display: flex;
-  align-items: stretch;
+  align-items: center;
   justify-content: center;
   margin-bottom: 8px;
   font-size: 0.75rem;
@@ -642,8 +648,11 @@ header .logo {
   overflow: hidden;
 }
 
-.product-card .product-card-img img {
-  width: 100%;
+.product-card .product-card-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: 100%;
   object-fit: contain;
   display: block;
 }
@@ -1378,7 +1387,6 @@ footer.site-footer {
     height: 100vh;
     max-height: 100vh;
     margin: 0;
-    border-radius: 0;
     padding: 16px 16px 24px;
     box-sizing: border-box;
   }
@@ -1559,7 +1567,6 @@ footer.site-footer {
   font-style: italic;
 }
 
-/* White cards sitting on the red/blue background */
 .featured-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
