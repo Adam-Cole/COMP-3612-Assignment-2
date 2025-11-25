@@ -240,6 +240,19 @@ header .logo {
   background-image: url("/images/mens-categories-bg.jpg");
 }
 
+/* hero text for large screens */
+@media (min-width: 901px) {
+  #heroCopy h1 {
+    font-size: 2.2rem;   
+  }
+  #heroCopy p {
+    font-size: 1.6rem;   
+  }
+  .hero-text {
+    max-width: 600px; 
+  }
+}
+
 @media (max-width: 900px) {
   .site-header{
     flex-direction: column;
