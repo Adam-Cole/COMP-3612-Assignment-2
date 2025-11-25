@@ -112,7 +112,7 @@ header .logo {
   height: 40vh; /* originally 260px, shorter, not sure which is visually better */
   min-height: 32vh;
     
-  background-image: url("/images/Hero_Boudhanath_Panorama_2016.jpg");
+  background-image: url("images/Hero_Boudhanath_Panorama_2016.jpg");
   background-size: cover; 
   background-repeat: no-repeat;
   background-position: center 30%;
@@ -232,12 +232,12 @@ header .logo {
 
 /* Women’s category background */
 .gender-categories--women {
-  background-image: url("/images/istockphoto-857171382-612x612.jpg");
+  background-image: url("images/istockphoto-857171382-612x612.jpg");
 }
 
 /* Men’s category background */
 .gender-categories--men {
-  background-image: url("/images/mens-categories-bg.jpg");
+  background-image: url("images/mens-categories-bg.jpg");
 }
 
 /* hero text for large screens */

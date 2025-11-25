@@ -12,10 +12,10 @@ const browseState = {
 };
 
 const FEATURED_IMAGE_MAP = {
-  "Wool Coat": "/images/Wool Coat.jpg",
-  "Leather Moto Jacket": "/images/Leather Moto Jacket.jpg",
-  "Wool Blend Trench Coat": "/images/Wool Blend Trench Coat.jpg",
-  "Cashmere Robe": "/images/Cashmere Robe 2.jpg"
+  "Wool Coat": "images/Wool Coat.jpg",
+  "Leather Moto Jacket": "images/Leather Moto Jacket.jpg",
+  "Wool Blend Trench Coat": "images/Wool Blend Trench Coat.jpg",
+  "Cashmere Robe": "images/Cashmere Robe 2.jpg"
 };
 
 // Shipping pricing rules
@@ -105,7 +105,7 @@ function renderCart() {
     if (thumbDiv) {
       thumbDiv.textContent = '';
       const img = document.createElement('img');
-      img.src = product ? getProductImageSrc(product) : '/images/all.jpg';
+      img.src = product ? getProductImageSrc(product) : 'images/all.jpg';
       img.alt = item.name;
       img.classList.add('cart-thumb-img');
       thumbDiv.appendChild(img);
@@ -318,18 +318,18 @@ const SIZE_TYPE_MAP = {
 };
 
 const CATEGORY_IMAGE_MAP = {
-  'All':        '/images/all.jpg',
-  'Tops':       '/images/tops.jpg',
-  'Bottoms':    '/images/bottoms.jpg',
-  'Sweaters':   '/images/sweaters.jpg',
-  'Outerwear':  '/images/outerwear.jpg',
-  'Dresses':    '/images/dress.jpg',
-  'Jumpsuits':  '/images/jumpsuit.jpg',
-  'Accessories':'/images/accessories.jpg',
-  'Shoes':      '/images/shoes.jpg',
-  'Intimates':  '/images/intimates.jpg',
-  'Loungewear': '/images/loungewear.jpg',
-  'Swimwear':   '/images/swimwear.jpg'
+  'All':        'images/all.jpg',
+  'Tops':       'images/tops.jpg',
+  'Bottoms':    'images/bottoms.jpg',
+  'Sweaters':   'images/sweaters.jpg',
+  'Outerwear':  'images/outerwear.jpg',
+  'Dresses':    'images/dress.jpg',
+  'Jumpsuits':  'images/jumpsuit.jpg',
+  'Accessories':'images/accessories.jpg',
+  'Shoes':      'images/shoes.jpg',
+  'Intimates':  'images/intimates.jpg',
+  'Loungewear': 'images/loungewear.jpg',
+  'Swimwear':   'images/swimwear.jpg'
 };
 
 function getProductImageSrc(product) {
@@ -339,7 +339,7 @@ function getProductImageSrc(product) {
   }
 
   //fallback: generic “all” icon
-  return "/images/all.jpg";
+  return "images/all.jpg";
 }
 
 function buildSizeFilters() {
