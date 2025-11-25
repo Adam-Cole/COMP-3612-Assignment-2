@@ -12,7 +12,7 @@ const browseState = {
 };
 
 const FEATURED_IMAGE_MAP = {
-  "Wool Coat": "images/Wool Coat.jpg",
+  "Wool Coat": "images/Wool Coat.JPG",
   "Leather Moto Jacket": "images/Leather Moto Jacket.jpg",
   "Wool Blend Trench Coat": "images/Wool Blend Trench Coat.jpg",
   "Cashmere Robe": "images/Cashmere Robe 2.JPG"
@@ -327,7 +327,7 @@ const CATEGORY_IMAGE_MAP = {
   'Jumpsuits':  "images/jumpsuit.jpg",
   'Accessories':"images/accessories.jpg",
   'Shoes':      "images/shoes.jpg",
-  'Intimates':  "images/intimates.jpg",
+  'Intimates':  "images/intimates.JPG",
   'Loungewear': "images/loungewear.jpg",
   'Swimwear':   "images/swimwear.jpg"
 };
