@@ -111,7 +111,7 @@ header .logo {
 .hero {
   height: 40vh; /* originally 260px, shorter, not sure which is visually better */
   min-height: 32vh;
-  
+    
   background-image: url("/images/Hero_Boudhanath_Panorama_2016.jpg");
   background-size: cover; 
   background-repeat: no-repeat;
