@@ -324,10 +324,10 @@ const CATEGORY_IMAGE_MAP = {
   'Sweaters':   "images/sweaters.JPG",
   'Outerwear':  "images/outerwear.JPG",
   'Dresses':    "images/dress.jpg",
-  'Jumpsuits':  "images/jumpsuit.JPG",
+  'Jumpsuits':  "images/jumpsuit.jpg",
   'Accessories':"images/accessories.jpg",
   'Shoes':      "images/shoes.jpg",
-  'Intimates':  "images/intimates.JPG",
+  'Intimates':  "images/intimates.jpg",
   'Loungewear': "images/loungewear.jpg",
   'Swimwear':   "images/swimwear.jpg"
 };
